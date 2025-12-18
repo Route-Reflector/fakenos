@@ -5,6 +5,7 @@ FakeNOS Command Line Tool for running fake servers.
 import argparse
 import logging
 import os
+import time
 
 from fakenos import FakeNOS
 
@@ -66,7 +67,7 @@ def run_cli():
 
     try:
         while True:
-            pass
+            time.sleep(1)
     except KeyboardInterrupt:
         log.info("Shutting down FakeNOS")
         fakenet.stop()
