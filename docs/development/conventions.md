@@ -1,14 +1,14 @@
 # Conventions
 This sections is intended to briefly explain all the tools used inside the project. Those tools are mainly there to ensure that the code is correctly written and tested.
 
-## General: Poetry
-Poetry is a tool for managing Python dependencies and packaging projects. It simplifies the process of managing dependencies by providing a consistent and declarative way to specify them in a `pyproject.toml` file. Poetry also handles virtual environment creation, package building, and publishing. It's often preferred by developers for its ease of use and integration with other tools in the Python ecosystem.
+## General: uv
+[uv](https://docs.astral.sh/uv/) is a fast Python package and project manager. It handles dependency resolution, virtual environment creation, package building, and publishing. All the configurations for the project can be found in the `pyproject.toml`.
 
-All the configurations for the project can be found ion the `pyproject.toml`. Here are some basic commands:
+Here are some basic commands:
 
-- `poetry install`: use it to install all the dependencies.
-- `poetry update`: use it to update the dependencies.
-- `poetry shell`: it enters the shell created using poetry install.
+- `uv sync`: use it to install all the dependencies and create the virtual environment.
+- `uv lock --upgrade`: use it to update the dependencies.
+- `source .venv/bin/activate`: activate the virtual environment, or use `uv run <command>` to run a command within the environment without activating it.
 
 ## Tests: Pytest
 Pytest is a testing framework for Python that makes it easy to write simple and scalable tests. It allows you to write test cases as regular Python functions, using assertions to verify expected outcomes. Pytest provides powerful features such as fixtures for setting up test environments, parameterized testing, and plugins for extending functionality. It's widely used in the Python community due to its simplicity, flexibility, and extensive ecosystem of plugins.

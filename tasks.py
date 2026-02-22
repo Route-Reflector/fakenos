@@ -16,8 +16,8 @@ import yaml
 
 from fakenos import FakeNOS
 
-if sys.version_info < (3, 11):
-    sys.exit("Please make sure to run this with Python 3.11 or higher.")
+if sys.version_info < (3, 13):
+    sys.exit("Please make sure to run this with Python 3.13 or higher.")
 
 
 def strtobool(val: str) -> bool:
