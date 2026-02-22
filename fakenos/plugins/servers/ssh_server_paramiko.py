@@ -140,6 +140,15 @@ def channel_to_shell_tap(channel_stdio, shell_stdin, shell_replied_event, run_sr
     while run_srv.is_set():
         byte: bytes = channel_stdio.read(1)
         log.debug("ssh_server.channel_to_shell_tap received from channel: %s", [byte])
+
+        # EOF / channel closed
+        if byte in (b"", None):
+            break
+
+        # Drop NUL bytes completely (don't echo, don't buffer)
+        if byte == b"\x00":
+            continue
+
         shell_replied_event.wait(10)
         if not channel_stdio.channel.active:
             log.error("SSH channel is not active. Exiting.")
@@ -165,8 +174,7 @@ def channel_to_shell_tap(channel_stdio, shell_stdin, shell_replied_event, run_sr
                     "ssh_server.channel_to_shell_tap echoing byte to channel: %s",
                     [byte],
                 )
-                if byte not in [b"\x00", b""]:
-                    buffer.write(byte)
+                buffer.write(byte)
             time.sleep(0.01)
         except (OSError, EOFError) as e:
             log.error("ssh_server.channel_to_shell_tap channel write error: %s", e)
@@ -188,6 +196,8 @@ def shell_to_channel_tap(
         line = shell_stdout.readline()
         if line is None:
             break
+        if "\x00" in line:
+            line = line.replace("\x00", "")
         if "\r\n" not in line and "\n" in line:
             line = line.replace("\n", "\r\n")
         log.debug("ssh_server.shell_to_channel_tap sending line to channel %s", [line])
@@ -294,6 +304,10 @@ class ParamikoSshServer(TCPServerBase):
 
         # create the channel and get the stdio
         channel = session.accept()
+        if channel is None:
+            log.warning("session.accept() returned None, closing transport")
+            session.close()
+            return
         channel_stdio = channel.makefile("rw")
 
         # create stdio for the shell
