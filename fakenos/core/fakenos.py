@@ -120,6 +120,9 @@ class FakeNOS:
         if self._is_inventory_in_yaml():
             self._load_inventory_yaml()
 
+        if not isinstance(self.inventory, dict):
+            raise TypeError(f"Inventory must be a dict or a path to a .yaml file, got {type(self.inventory).__name__}")
+
         self.inventory["default"] = {
             **default_inventory["default"],
             **self.inventory.get("default", {}),
