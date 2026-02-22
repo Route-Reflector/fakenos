@@ -455,6 +455,18 @@ class TestFakeNOS:
         active_threads = threading.active_count()
         assert active_threads == 1
 
+    def test_execute_function_over_hosts_invalid_workers(self):
+        """
+        Test that _execute_function_over_hosts raises ValueError
+        when workers < 1.
+        """
+        net = FakeNOS()
+        hosts = list(net.hosts.values())
+        with pytest.raises(ValueError, match="workers must be >= 1"):
+            net._execute_function_over_hosts(
+                hosts, "start", host_running=False, parallel=True, workers=0,
+            )
+
     def test_nos_load_inventory_from_py_and_yaml(self):
         """
         Test cisco_ios NOS loaded correctly as it has both

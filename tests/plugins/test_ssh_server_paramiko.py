@@ -765,3 +765,18 @@ class ParamikoSshServerTest(unittest.TestCase):
         mock_transport.assert_called_once()
         mock_shell_to_channel_tap.assert_called_once()
         mock_channel_to_shell_tap.assert_called_once()
+
+    @mock.patch("paramiko.Transport")
+    def test_connection_function_accept_returns_none(self, mock_transport_cls: MagicMock):
+        """session.accept() returning None should close session and return early."""
+        mock_session = MagicMock()
+        mock_session.accept.return_value = None
+        mock_transport_cls.return_value = mock_session
+
+        mock_client = MagicMock()
+        mock_is_running = Mock()
+        paramiko_server: ParamikoSshServer = ParamikoSshServer(**self.arguments)
+        paramiko_server.connection_function(mock_client, mock_is_running)
+
+        mock_session.accept.assert_called_once()
+        mock_session.close.assert_called_once()

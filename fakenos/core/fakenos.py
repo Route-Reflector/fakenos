@@ -340,6 +340,8 @@ class FakeNOS:
             for h in targets:
                 getattr(h, func)()
             return
+        if workers is not None and workers < 1:
+            raise ValueError(f"workers must be >= 1, got {workers}")
         max_workers = workers or min(32, len(targets))
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as ex:
             futures = [ex.submit(getattr(h, func)) for h in targets]

@@ -304,6 +304,10 @@ class ParamikoSshServer(TCPServerBase):
 
         # create the channel and get the stdio
         channel = session.accept()
+        if channel is None:
+            log.warning("session.accept() returned None, closing transport")
+            session.close()
+            return
         channel_stdio = channel.makefile("rw")
 
         # create stdio for the shell
