@@ -2,8 +2,8 @@
 
 
 !!! warning
-    This is automatically generated. In case of any issues, 
-    please refer to the source code or, even better, 
+    This is automatically generated. In case of any issues,
+    please refer to the source code or, even better,
     open an issue on the GitHub repository. Thanks! 🤗📖
 ## Platforms:
 
@@ -146,4 +146,3 @@ broadcast 10.0.0.255 dev brblue proto kernel scope link src 10.0.0.1
 **Prompt:**
 - linux$
 - linux#
-

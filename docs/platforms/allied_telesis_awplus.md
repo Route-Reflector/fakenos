@@ -2,8 +2,8 @@
 
 
 !!! warning
-    This is automatically generated. In case of any issues, 
-    please refer to the source code or, even better, 
+    This is automatically generated. In case of any issues,
+    please refer to the source code or, even better,
     open an issue on the GitHub repository. Thanks! 🤗📖
 ## Platforms:
 
@@ -573,7 +573,7 @@ Gateway of last resort is 20.0.0.254 to network 0.0.0.0
 
 S*      0.0.0.0/0 [1/0] via 20.0.0.254, vlan511
 C       20.0.0.0/24 is directly connected, vlan511
- 
+
 [VRF: AAA]
 Gateway of last resort is 2.0.0.254 to network 0.0.0.0
 
@@ -616,4 +616,3 @@ Aggregator po7 (IfIndex: 4607)
 **Prompt:**
 - allied_telesis_awplus>
 - allied_telesis_awplus#
-

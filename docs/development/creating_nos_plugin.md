@@ -58,7 +58,7 @@ hostname {base_prompt} # (12)
 boot-start-marker
 boot-end-marker
         """,
-        "help": "Current operating configuration", 
+        "help": "Current operating configuration",
         "prompt": "{base_prompt}#",
     },
     "show version": {
@@ -79,9 +79,9 @@ Configuration register is 0x2102
     "terminal width 511": {
         "output": "", # (8)
         "help": "Set terminal width to 511"
-    }, 
+    },
     "terminal length 0": {
-        "output": "", 
+        "output": "",
         "help": "Set terminal length to 0"
     },
     "exit": {"output": True, "help": "Exit commands shell"} # (7)
@@ -347,4 +347,3 @@ inventory = {
 
 !!! note
     If two commands match the same name, the last command loaded will be used.
-

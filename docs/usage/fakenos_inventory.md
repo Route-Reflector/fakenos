@@ -166,7 +166,7 @@ FakeNOS CLI tool:
 fakenos -i path/to/my_inventory.yaml
 ```
 
-Where `my_inventory.yaml` could contain equivalent to above Python code 
+Where `my_inventory.yaml` could contain equivalent to above Python code
 YAML structured inventory:
 
 ```yaml
@@ -560,7 +560,7 @@ The following options can be used either in the `default` section or in the `hos
 ### NOS options
 
 | Option                    | Emoji                     | Description                           | E.g.                                                                    |
-| ------------------------- | ------------------------- | ------------------------------------- | ----------------------------------------------------------------------- | 
+| ------------------------- | ------------------------- | ------------------------------------- | ----------------------------------------------------------------------- |
 | `plugin`                  | :electric_plug:           | NOS plugin to use                     | `plugin: cisco_ios`                                                     |
 | `configuration`           | :gear:                    | NOS configuration                     | The configuration entirely rely on the plugin                           |
 

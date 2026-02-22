@@ -19,7 +19,7 @@ RUN pip install --upgrade pip
 # and CI and local development may have a newer version of Poetry
 # Since this is only used for development and we don't ship this container, pinning Poetry back is not expressly necessary
 # We also don't need virtual environments in container
-RUN which poetry || curl -sSL https://install.python-poetry.org | python3 - 
+RUN which poetry || curl -sSL https://install.python-poetry.org | python3 -
 
 # Add poetry install location to the $PATH
 ENV PATH="${PATH}:/root/.local/bin"

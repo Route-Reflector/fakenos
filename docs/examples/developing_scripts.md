@@ -68,8 +68,8 @@ parser = argparse.ArgumentParser(
     )
 
 parser.add_argument(
-    "platform", 
-    type=str, 
+    "platform",
+    type=str,
     help="fake device network operating system"
     )
 
@@ -122,8 +122,8 @@ serial_number: str = ''
 with ConnectHandler(**credentials) as conn:
     output = conn.send_command("display ont info summary ont")
     parsed_output = parse_output(
-        platform="huawei_smartax", 
-        command="display ont info summary 0/1/0", 
+        platform="huawei_smartax",
+        command="display ont info summary 0/1/0",
         data=output
     )
     serial_number = parsed_output[0]['serial_number']

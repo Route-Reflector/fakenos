@@ -2,8 +2,8 @@
 
 
 !!! warning
-    This is automatically generated. In case of any issues, 
-    please refer to the source code or, even better, 
+    This is automatically generated. In case of any issues,
+    please refer to the source code or, even better,
     open an issue on the GitHub repository. Thanks! 🤗📖
 ## Platforms:
 
@@ -22,71 +22,71 @@
 
 **Output:**
 ```
-Flags: X - disabled, I - invalid, D - dynamic 
+Flags: X - disabled, I - invalid, D - dynamic
  0    ;;; defconf: accept established,related,untracked
-      chain=input action=accept connection-state=established,related,untracked 
+      chain=input action=accept connection-state=established,related,untracked
 
  1    ;;; defconf: drop invalid
-      chain=input action=drop connection-state=invalid 
+      chain=input action=drop connection-state=invalid
 
  2    ;;; FIREWALL-DMZ-1
-      chain=forward action=accept connection-state=established,related,new in-interface=dmz-1-vlan out-interface=pppoe-out1 
+      chain=forward action=accept connection-state=established,related,new in-interface=dmz-1-vlan out-interface=pppoe-out1
 
- 3    chain=forward action=accept dst-address=185.163.212.156/30 
+ 3    chain=forward action=accept dst-address=185.163.212.156/30
 
  4    ;;; defconf: accept ICMP
-      chain=input action=accept protocol=icmp 
+      chain=input action=accept protocol=icmp
 
  5    ;;; Acces VPN
-      chain=input action=accept protocol=udp dst-port=500,1701,4500 log-prefix="Acces VPN" 
+      chain=input action=accept protocol=udp dst-port=500,1701,4500 log-prefix="Acces VPN"
 
- 6    chain=input action=accept protocol=ipsec-esp 
+ 6    chain=input action=accept protocol=ipsec-esp
 
  7    ;;; Acces WAN
-      chain=input action=accept protocol=tcp src-address-list=Supervision dst-port=4430,22,8291 
+      chain=input action=accept protocol=tcp src-address-list=Supervision dst-port=4430,22,8291
 
  8    ;;; Acces WAN SNMP
-      chain=input action=accept protocol=udp src-address-list=Supervision dst-port=161 
+      chain=input action=accept protocol=udp src-address-list=Supervision dst-port=161
 17:20:06 echo: system,error,critical login failure for user admin from 65.160.140.13 via ssh
 
  9    ;;; defconf: accept to local loopback (for CAPsMAN)
-      chain=input action=accept dst-address=127.0.0.1 
+      chain=input action=accept dst-address=127.0.0.1
 
 10    ;;; defconf: drop all not coming from LAN
-      chain=input action=drop in-interface-list=!LAN 
+      chain=input action=drop in-interface-list=!LAN
 
 11    ;;; defconf: accept in ipsec policy
-      chain=forward action=accept ipsec-policy=in,ipsec 
+      chain=forward action=accept ipsec-policy=in,ipsec
 
 12    ;;; defconf: accept out ipsec policy
-      chain=forward action=accept ipsec-policy=out,ipsec 
+      chain=forward action=accept ipsec-policy=out,ipsec
 
 13 X  ;;; defconf: fasttrack
       chain=forward action=fasttrack-connection hw-offload=yes connection-state=established,related
 
 14    ;;; defconf: accept established,related, untracked
-      chain=forward action=accept connection-state=established,related,untracked 
+      chain=forward action=accept connection-state=established,related,untracked
 
 15    ;;; defconf: drop invalid
-      chain=forward action=drop connection-state=invalid 
+      chain=forward action=drop connection-state=invalid
 
 16    ;;; defconf: drop all from WAN not DSTNATed
-      chain=forward action=drop connection-state=new connection-nat-state=!dstnat in-interface-list=WAN 
+      chain=forward action=drop connection-state=new connection-nat-state=!dstnat in-interface-list=WAN
 
 17    ;;; Input
-      chain=input action=accept src-address-list=Eqinoxe 
+      chain=input action=accept src-address-list=Eqinoxe
 
 18    ;;; related established
-      chain=input connection-state=established,related 
+      chain=input connection-state=established,related
 
 19    chain=forward connection-state=established,related src-mac-address=67:33:EB:0E:EB:A8
 
 20    ;;; drop invalid connections
 17:20:06 echo: system,error,critical login failure for user admin from 65.160.140.13 via ssh
-      chain=forward action=drop connection-state=invalid protocol=tcp 
+      chain=forward action=drop connection-state=invalid protocol=tcp
 
 21    ;;; Block all entrant
-      chain=input action=drop in-interface=all-ppp 
+      chain=input action=drop in-interface=all-ppp
 
 22    chain=input action=drop in-interface=all-ethernet log-prefix=""
 
@@ -120,12 +120,12 @@ Flags: X - disabled, I - invalid, D - dynamic
 
 **Output:**
 ```
- 0 ADS  dst-address=::/0 gateway=pppoe-out1 gateway-status=pppoe-out1 reachable distance=100 scope=30 target-scope=10 
- 1 ADC  dst-address=2a05:c100:7::/64 gateway=bridge-lan gateway-status=bridge-lan reachable distance=0 scope=10 
- 2   S  dst-address=9bb8:baac:d400::/38 gateway=ether4 gateway-status=ether4 unreachable distance=44 scope=30 target-scope=10 
+ 0 ADS  dst-address=::/0 gateway=pppoe-out1 gateway-status=pppoe-out1 reachable distance=100 scope=30 target-scope=10
+ 1 ADC  dst-address=2a05:c100:7::/64 gateway=bridge-lan gateway-status=bridge-lan reachable distance=0 scope=10
+ 2   S  dst-address=9bb8:baac:d400::/38 gateway=ether4 gateway-status=ether4 unreachable distance=44 scope=30 target-scope=10
 17:20:06 echo: system,error,critical login failure for user admin from 65.160.140.13 via ssh
- 3 X S  dst-address=ec64:a7fd:bc1c:14c:7960:5000::/84 gateway=ether2 gateway-status=ether2 inactive distance=7 scope=30 target-scope=10 
- 4   S  dst-address=fd79:f1d4:a400::/39 gateway=ether5 gateway-status=ether5 unreachable distance=24 scope=30 target-scope=10 
+ 3 X S  dst-address=ec64:a7fd:bc1c:14c:7960:5000::/84 gateway=ether2 gateway-status=ether2 inactive distance=7 scope=30 target-scope=10
+ 4   S  dst-address=fd79:f1d4:a400::/39 gateway=ether5 gateway-status=ether5 unreachable distance=24 scope=30 target-scope=10
 
 ```
 
@@ -139,11 +139,11 @@ Flags: X - disabled, I - invalid, D - dynamic
 
 **Output:**
 ```
-Flags: X - disabled, R - radius, D - dynamic, B - blocked 
- #   ADDRESS                                 MAC-ADDRESS       HOST-NAME                     SERVER                     RATE-LIMIT                     STATUS  LAST-SEEN                               
+Flags: X - disabled, R - radius, D - dynamic, B - blocked
+ #   ADDRESS                                 MAC-ADDRESS       HOST-NAME                     SERVER                     RATE-LIMIT                     STATUS  LAST-SEEN
 17:20:06 echo: system,error,critical login failure for user admin from 65.160.140.13 via ssh
- 0                                           AF:D6:C8:F2:36:16                                                                                         waiting never                                   
- 1 X 192.168.1.56                                                                                                       15                             waiting never                                   
+ 0                                           AF:D6:C8:F2:36:16                                                                                         waiting never
+ 1 X 192.168.1.56                                                                                                       15                             waiting never
 
 ```
 
@@ -229,21 +229,21 @@ Flags: R - radius, M - by-romon
 
 **Output:**
 ```
- 0   list=Eqinoxe address=185.48.253.0/27 creation-time=jan/01/2002 01:00:25 
- 1   list=Eqinoxe address=185.48.254.0/28 creation-time=jan/01/2002 01:00:25 
- 2   list=Eqinoxe address=185.163.212.64/28 creation-time=jan/01/2002 01:00:25 
- 3   list=Eqinoxe address=185.163.212.48/28 creation-time=jan/01/2002 01:00:25 
- 4   list=Eqinoxe address=185.197.109.16/28 creation-time=jan/01/2002 01:00:25 
- 5   list=Supervision address=185.132.66.240 creation-time=jan/01/2002 01:00:25 
- 6   list=Supervision address=85.14.167.232/29 creation-time=jan/01/2002 01:00:25 
- 7   list=Supervision address=185.48.254.16/29 creation-time=jan/01/2002 01:00:25 
- 8   list=Supervision address=5.10.130.152/30 creation-time=jan/01/2002 01:00:25 
- 9   list=Supervision address=85.14.167.193 creation-time=jan/01/2002 01:00:25 
-10   list=azeazeaze address=192.168.1.1 creation-time=jun/14/2022 06:34:30 
-11   list=azeazeaze address=192.168.1.2 creation-time=jun/14/2022 06:44:09 
-12   list=azeazeaze address=192.168.1.3 creation-time=jun/14/2022 06:44:51 
-13 X list=azeazeaze address=192.168.3.0/24 creation-time=jun/14/2022 07:53:30 
-14 D list=azeazeaze address=192.168.3.0/24 creation-time=jun/14/2022 07:53:49 timeout=4m52s 
+ 0   list=Eqinoxe address=185.48.253.0/27 creation-time=jan/01/2002 01:00:25
+ 1   list=Eqinoxe address=185.48.254.0/28 creation-time=jan/01/2002 01:00:25
+ 2   list=Eqinoxe address=185.163.212.64/28 creation-time=jan/01/2002 01:00:25
+ 3   list=Eqinoxe address=185.163.212.48/28 creation-time=jan/01/2002 01:00:25
+ 4   list=Eqinoxe address=185.197.109.16/28 creation-time=jan/01/2002 01:00:25
+ 5   list=Supervision address=185.132.66.240 creation-time=jan/01/2002 01:00:25
+ 6   list=Supervision address=85.14.167.232/29 creation-time=jan/01/2002 01:00:25
+ 7   list=Supervision address=185.48.254.16/29 creation-time=jan/01/2002 01:00:25
+ 8   list=Supervision address=5.10.130.152/30 creation-time=jan/01/2002 01:00:25
+ 9   list=Supervision address=85.14.167.193 creation-time=jan/01/2002 01:00:25
+10   list=azeazeaze address=192.168.1.1 creation-time=jun/14/2022 06:34:30
+11   list=azeazeaze address=192.168.1.2 creation-time=jun/14/2022 06:44:09
+12   list=azeazeaze address=192.168.1.3 creation-time=jun/14/2022 06:44:51
+13 X list=azeazeaze address=192.168.3.0/24 creation-time=jun/14/2022 07:53:30
+14 D list=azeazeaze address=192.168.3.0/24 creation-time=jun/14/2022 07:53:49 timeout=4m52s
 15 list=snmp-monitoring-address-list address=85.14.167.234 creation-time=mar/01/2023 13:59:33
 
 ```
@@ -286,20 +286,20 @@ Flags: R - radius, M - by-romon
 
 **Output:**
 ```
-Flags: X - disabled, I - invalid, D - dynamic 
+Flags: X - disabled, I - invalid, D - dynamic
 17:20:06 echo: system,error,critical login failure for user admin from 65.160.140.13 via ssh
  0    ;;; dmz-1: masquerade
-      chain=srcnat action=masquerade src-address=!185.163.212.156/30 out-interface-list=WAN ipsec-policy=out,none 
+      chain=srcnat action=masquerade src-address=!185.163.212.156/30 out-interface-list=WAN ipsec-policy=out,none
 
- 1    chain=dstnat action=redirect protocol=icmp src-address=192.168.1.16 dst-address=31.31.31.31 in-interface-list=dmz-1 log=no log-prefix="" 
+ 1    chain=dstnat action=redirect protocol=icmp src-address=192.168.1.16 dst-address=31.31.31.31 in-interface-list=dmz-1 log=no log-prefix=""
 
  2 X  ;;; qsdqsdqsd
 17:20:06 echo: system,error,critical login failure for user admin from 65.160.140.13 via ssh
-      chain=srcnat action=accept protocol=vmtp in-interface=all-ethernet out-interface=ether4 log=no log-prefix="" 
+      chain=srcnat action=accept protocol=vmtp in-interface=all-ethernet out-interface=ether4 log=no log-prefix=""
 
- 3 X  chain=srcnat action=accept protocol=tcp src-address-list=Supervision dst-address-list=Eqinoxe src-port=80 dst-port=8080 log=no log-prefix="" 
+ 3 X  chain=srcnat action=accept protocol=tcp src-address-list=Supervision dst-address-list=Eqinoxe src-port=80 dst-port=8080 log=no log-prefix=""
 
- 4    chain=srcnat action=masquerade protocol=icmp src-address=0.0.0.0 out-interface-list=DMZ log=no log-prefix="" ipsec-policy=out,ipsec 
+ 4    chain=srcnat action=masquerade protocol=icmp src-address=0.0.0.0 out-interface-list=DMZ log=no log-prefix="" ipsec-policy=out,ipsec
 
 ```
 
@@ -315,7 +315,7 @@ Flags: X - disabled, I - invalid, D - dynamic
 ```
 Flags: X - disabled, E - established
  0 E name="SRV-R1" instance=default remote-address=1.2.3.4 remote-as=8491 tcp-md5-key="" nexthop-choice=default multihop=no route-reflect=no hold-time=3m ttl=255 in-filter=INTERNAL-RR-IN out-filter=INTERNAL-RR-OUT address-families=ip update-source=Loopback0 default-originate=never remove-private-as=no as-override=no passive=no use-bfd=no remote-id=1.2.3.4 local-address=1.2.3.44 uptime=7w6d1h49m36s prefix-count=1836 updates-sent=331 updates-received=237257 withdrawn-sent=301 withdrawn-received=84853 remote-hold-time=1m30s used-hold-time=1m30s used-keepalive-time=30s refresh-capability=yes as4-capability=yes state=established
- 
+
  1 E name="SRV-R2" instance=default remote-address=1.2.3.5 remote-as=8491 tcp-md5-key="" nexthop-choice=default multihop=no route-reflect=no hold-time=3m ttl=255 in-filter=INTERNAL-RR-IN out-filter=INTERNAL-RR-OUT address-families=ip update-source=Loopback0 default-originate=never remove-private-as=no as-override=no passive=no use-bfd=no remote-id=1.2.3.5 local-address=1.2.3.44 uptime=7w6d1h49m43s prefix-count=1835 updates-sent=331 updates-received=243335 withdrawn-sent=301 withdrawn-received=84680 remote-hold-time=1m30s used-hold-time=1m30s used-keepalive-time=30s refresh-capability=yes as4-capability=yes state=established
 
 ```
@@ -330,12 +330,12 @@ Flags: X - disabled, E - established
 
 **Output:**
 ```
-Flags: R - router 
- 0   address=ff02::5 interface=main mac-address=33:33:00:00:00:05 status="noarp" 
+Flags: R - router
+ 0   address=ff02::5 interface=main mac-address=33:33:00:00:00:05 status="noarp"
 
- 1   address=ff02::1 interface=main mac-address=33:33:00:00:00:01 status="noarp" 
+ 1   address=ff02::1 interface=main mac-address=33:33:00:00:00:01 status="noarp"
 
- 2 R address=fe80::d7:4cff:fec1:2e32 interface=main mac-address=00:0C:42:28:79:45 status="stale" 
+ 2 R address=fe80::d7:4cff:fec1:2e32 interface=main mac-address=00:0C:42:28:79:45 status="stale"
 
  3   address=2a05:c100:1d::351c interface=bridge-lan status="failed"
 
@@ -389,10 +389,10 @@ Flags: X - disabled, I - invalid, D - dynamic
 **Output:**
 ```
 17:20:06 echo: system,error,critical login failure for user admin from 65.160.140.13 via ssh
-Flags: * - default, X - disabled 
+Flags: * - default, X - disabled
  #    NAME                                                        ADDRESSES                                                                                         SECURITY   READ-ACCESS WRITE-ACCESS
 17:20:06 echo: system,error,critical login failure for user admin from 65.160.140.13 via ssh
- 0 *  Monitoring                                                  ::/0                                                                                              none       yes         no          
+ 0 *  Monitoring                                                  ::/0                                                                                              none       yes         no
 
 ```
 
@@ -406,11 +406,11 @@ Flags: * - default, X - disabled
 
 **Output:**
 ```
-Flags: X - disabled, I - invalid, H - DHCP, D - dynamic, P - published, C - complete 
- #    ADDRESS         MAC-ADDRESS       INTERFACE                                                                                                                                                      
- 0 D  185.163.212.158                   dmz-1-vlan                                                                                                                                                     
+Flags: X - disabled, I - invalid, H - DHCP, D - dynamic, P - published, C - complete
+ #    ADDRESS         MAC-ADDRESS       INTERFACE
+ 0 D  185.163.212.158                   dmz-1-vlan
 17:20:06 echo: system,error,critical login failure for user admin from 65.160.140.13 via ssh
- 1    185.163.212.159 AF:D6:C8:F2:36:16 vlan-2                                                                                                                                                     
+ 1    185.163.212.159 AF:D6:C8:F2:36:16 vlan-2
 
 ```
 
@@ -498,4 +498,3 @@ add address=10.80.90.5/27 comment="test comment" disabled=yes interface=eth3_vla
 **Prompt:**
 - mikrotik_routeros>
 - mikrotik_routeros#
-

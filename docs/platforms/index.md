@@ -52,4 +52,3 @@ The following list of platforms are supported by FakeNOS. All the platforms list
 - [vyatta_vyos](platforms/vyatta_vyos.md) ✅
 - [yamaha](platforms/yamaha.md) ✅
 - [zyxel_os](platforms/zyxel_os.md) ✅
-

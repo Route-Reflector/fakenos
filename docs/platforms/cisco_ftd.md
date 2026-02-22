@@ -2,8 +2,8 @@
 
 
 !!! warning
-    This is automatically generated. In case of any issues, 
-    please refer to the source code or, even better, 
+    This is automatically generated. In case of any issues,
+    please refer to the source code or, even better,
     open an issue on the GitHub repository. Thanks! 🤗📖
 ## Platforms:
 
@@ -92,4 +92,3 @@ Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
 **Prompt:**
 - cisco_ftd>
 - cisco_ftd#
-

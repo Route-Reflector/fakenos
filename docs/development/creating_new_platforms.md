@@ -1,5 +1,5 @@
 # Adding new platforms
-FakeNOS is designed to be easily extensible. It is designed in such 
+FakeNOS is designed to be easily extensible. It is designed in such
 a way that adding new platforms is simple and can be done using different
 methods. At the moment, it is possible only using Python modules or YAML files.
 

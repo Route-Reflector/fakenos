@@ -86,7 +86,7 @@ jobs:
       - "ruff"
       - "bandit"
       # - "yamllint"
-  
+
   # build:
   #   strategy:
   #     fail-fast: true

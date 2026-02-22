@@ -2,8 +2,8 @@
 
 
 !!! warning
-    This is automatically generated. In case of any issues, 
-    please refer to the source code or, even better, 
+    This is automatically generated. In case of any issues,
+    please refer to the source code or, even better,
     open an issue on the GitHub repository. Thanks! 🤗📖
 ## Platforms:
 
@@ -123,7 +123,7 @@ Physical interface: ip-0/0/0, Enabled, Physical link is Up
   Device flags   : Present Running
   Input rate     : 0 bps (0 pps)
   Output rate    : 0 bps (0 pps)
- 
+
 Physical interface: lsq-0/0/0, Enabled, Physical link is Up
   Interface index: 141, SNMP ifIndex: 509
   Link-level type: LinkService, MTU: 1504
@@ -283,7 +283,7 @@ Aggregated interface: ae112
     LACP protocol:        Receive State  Transmit State          Mux State
       et-0/0/34                 Current   Fast periodic Collecting distributing
       et-0/0/35                 Current   Fast periodic Collecting distributing
- 
+
 Aggregated interface: ae115
     LACP state:       Role   Exp   Def  Dist  Col  Syn  Aggr  Timeout  Activity
       et-0/0/25      Actor    No    No   Yes  Yes  Yes   Yes     Fast    Active
@@ -334,15 +334,15 @@ System control board     ROM        Juniper ROM Monitor Version 2.0i126Copyri
 FPC 5                    ROM        Juniper ROM Monitor Version 2.0i49Copyrig
                          O/S        Version 2.0i1 by root on Thu Jul 23 00:59
 
-FPC 2                    ROM        Juniper ROM Monitor Version 8.0b29         
+FPC 2                    ROM        Juniper ROM Monitor Version 8.0b29
                          O/S        Version 8.2B1 by builder on 2006-10-18 16:2
-FPC 3                    ROM        Juniper ROM Monitor Version 8.0b29         
+FPC 3                    ROM        Juniper ROM Monitor Version 8.0b29
                          O/S        Version 8.2B1 by builder on 2006-10-18 16:2
-FPC 4                    ROM        Juniper ROM Monitor Version 8.0b29         
+FPC 4                    ROM        Juniper ROM Monitor Version 8.0b29
                          O/S        Version 8.2B1 by builder on 2006-10-18 16:2
-FEB 3                    ROM        Juniper ROM Monitor Version 8.0b29         
+FEB 3                    ROM        Juniper ROM Monitor Version 8.0b29
                          O/S        Version 8.2B1 by builder on 2006-10-18 16:1
-FEB 4                    ROM        Juniper ROM Monitor Version 8.0b29         
+FEB 4                    ROM        Juniper ROM Monitor Version 8.0b29
                          O/S        Version 8.2B1 by builder on 2006-10-18 16:1
 
 Part                     Type       Version
@@ -358,29 +358,29 @@ Part                     Type       Version
                          O/S        Version 4.0I1 by tlim on 2000-02-29 11:56
 
 Part                     Type       Version
-FPC 0                    ROM        Juniper ROM Monitor Version 13.1b24       
+FPC 0                    ROM        Juniper ROM Monitor Version 13.1b24
                          O/S        Version 13.2-20130514.1 by builder on 2013-
-FPC 1                    ROM        Juniper ROM Monitor Version 13.1b24       
+FPC 1                    ROM        Juniper ROM Monitor Version 13.1b24
                          O/S        Version 13.2-20130514.1 by builder on 2013-
-FPC 2                    ROM        Juniper ROM Monitor Version 13.1b24       
+FPC 2                    ROM        Juniper ROM Monitor Version 13.1b24
                          O/S        Version 13.2-20130514.1 by builder on 2013-
-AFEB                     ROM        Juniper ROM Monitor Version 13.1b24       
+AFEB                     ROM        Juniper ROM Monitor Version 13.1b24
                          O/S        Version 13.2-20130514.1 by builder on 2013-
 
 Part                     Type       Version
-FPC 1                    ROM        Juniper ROM Monitor Version 8.3b1          
+FPC 1                    ROM        Juniper ROM Monitor Version 8.3b1
                          O/S        Version 9.0-20080103.0 by builder on 2008-0
-FPC 2                    ROM        Juniper ROM Monitor Version 8.3b1          
+FPC 2                    ROM        Juniper ROM Monitor Version 8.3b1
                          O/S        Version 9.0-20080103.0 by builder on 2008-0
 
 Part                     Type       Version
-FPC 1                    ROM        Juniper ROM Monitor Version 8.3b1          
+FPC 1                    ROM        Juniper ROM Monitor Version 8.3b1
                          O/S        Version 9.0-20070916.3 by builder on 2007-0
 
 Part                     Type       Version
-FPC 4                    ROM        Juniper ROM Monitor Version 8.0b8          
+FPC 4                    ROM        Juniper ROM Monitor Version 8.0b8
                          O/S        Version 8.2I59 by artem on 2006-10-31 19:22
-FPC 7                    ROM        Juniper ROM Monitor Version 8.2b1          
+FPC 7                    ROM        Juniper ROM Monitor Version 8.2b1
                          O/S        Version 8.2-20061026.1 by builder on 2006-1
 
 Part                     Type       Version
@@ -477,18 +477,18 @@ FPC 5                    U-Boot     U-Boot 1.1.6 (Mar 25 2009 - 06:13:12) 2.4.0
 FPC 7                    U-Boot     U-Boot 1.1.6 (Feb  6 2009 - 05:31:46) 2.4.0
                          loader     FreeBSD/PowerPC U-Boot bootstrap loader 2.2
 Routing Engine 0         U-Boot     U-Boot 1.1.6 (Mar 25 2009 - 06:13:12) 2.4.0
-                         loader     FreeBSD/PowerPC U-Boot bootstrap loader 2.2                                                
+                         loader     FreeBSD/PowerPC U-Boot bootstrap loader 2.2
 Routing Engine 1         U-Boot     U-Boot 1.1.6 (Mar 25 2009 - 06:13:12) 2.4.0
                          loader     FreeBSD/PowerPC U-Boot bootstrap loader 2.2
 
 lcc0-re0:
 --------------------------------------------------------------------------
 Part                     Type       Version
-FPC 1                    ROM        Juniper ROM Monitor Version 6.4b18         
+FPC 1                    ROM        Juniper ROM Monitor Version 6.4b18
                          O/S        Version 7.0-20040804.0 by builder on 2004-0
-FPC 2                    ROM        Juniper ROM Monitor Version 6.4b20         
+FPC 2                    ROM        Juniper ROM Monitor Version 6.4b20
                          O/S        Version 7.0-20040804.0 by builder on 2004-0
-SPMB 0                   ROM        Juniper ROM Monitor Version 6.4b18         
+SPMB 0                   ROM        Juniper ROM Monitor Version 6.4b18
                          O/S        Version 7.0-20040804.0 by builder on 2004-0
                          O/S        Version 7.0-20040804.0 by builder on 2004-0
 
@@ -527,7 +527,7 @@ reth1        Up          3
 reth2        Down        Not configured
 reth3        Down        Not configured
 reth4        Down        Not configured
- 
+
 Redundant-pseudo-interface Information:
 Name         Status      Redundancy-group
 lo0          Up          0
@@ -691,7 +691,7 @@ JUNOS EX  Software Suite [13.2X51-D35.3]
 JUNOS Online Documentation [13.2X51-D35.3]
  JUNOS EX 4500 Software Suite [13.2X51-D35.3]
 JUNOS Web Management [13.2X51-D35.3]
- 
+
 fpc1:
 --------------------------------------------------------------------------
  Hostname: lab
@@ -731,4 +731,3 @@ JUNOS Web Management [13.2X51-D35.3]
 **Prompt:**
 - juniper_junos>
 - juniper_junos#
-

@@ -2,8 +2,8 @@
 
 
 !!! warning
-    This is automatically generated. In case of any issues, 
-    please refer to the source code or, even better, 
+    This is automatically generated. In case of any issues,
+    please refer to the source code or, even better,
     open an issue on the GitHub repository. Thanks! 🤗📖
 ## Platforms:
 
@@ -174,7 +174,7 @@ Port:	1
 
     STP cfg:
 		s1(enable), Tag=(none), Mode=802.1D, State=DISABLED
- 
+
 	Protocol:
 		 Name: Default      Protocol: ANY      Match all protocols.
  	Trunking:	Master port with 4 members using algorithm address based - L3_L4
@@ -241,7 +241,7 @@ Port:	2
 
     STP cfg:
 		s1(enable), Tag=(none), Mode=802.1D, State=DISABLED
- 
+
 	Protocol:
 		 Name: Default      Protocol: ANY      Match all protocols.
  	Trunking:	Master port with 4 members using algorithm address based - L3_L4
@@ -463,7 +463,7 @@ VLAN0037        37   VLAN0037
 VLAN0038        38   SS_voip
 VLAN0248        248
 -------------------------------------------------------------------------------
- 
+
 > Indicates description string truncated past 57 characters
 
 Total number of VLAN(s) : 3469
@@ -485,4 +485,3 @@ Total number of VLAN(s) : 3469
 **Prompt:**
 - extreme_exos>
 - extreme_exos#
-

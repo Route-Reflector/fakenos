@@ -130,7 +130,7 @@ def test_get_serial_number():
     assert result == "1234567890ABCDEF"
 ```
 
-The decorator handles the start and stop of the fake devices, creating the inventory before starts and stopping it after the test. This decorator is perfectly suited for only test over one platform. But also, over many platforms using your custom inventory. 
+The decorator handles the start and stop of the fake devices, creating the inventory before starts and stopping it after the test. This decorator is perfectly suited for only test over one platform. But also, over many platforms using your custom inventory.
 
 ```python
 from fakenos import fakenos
