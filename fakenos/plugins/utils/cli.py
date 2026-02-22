@@ -6,10 +6,11 @@ import argparse
 import logging
 import os
 import time
+from importlib.metadata import version
 
 from fakenos import FakeNOS
 
-__version__ = "1.0.0"
+__version__ = version("fakenos")
 
 log = logging.getLogger(__name__)
 
