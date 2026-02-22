@@ -2,8 +2,6 @@
 File to contain pydantic models for plugins input/output data validation
 """
 
-from __future__ import annotations
-
 from collections.abc import Callable
 from typing import Literal
 
@@ -26,7 +24,7 @@ class ModelNosCommand(BaseModel):
     Pydantic model for NOS command attributes.
     """
 
-    output: StrictStr | None | Callable | StrictBool | None = None
+    output: StrictStr | Callable | StrictBool | None = None
     help: StrictStr | None = None
     prompt: StrictStr | list[StrictStr] | None = None
     new_prompt: StrictStr | None = None

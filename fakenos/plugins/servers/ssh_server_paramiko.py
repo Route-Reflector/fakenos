@@ -8,6 +8,7 @@ import logging
 import socket
 import threading
 import time
+from typing import Any
 
 import paramiko
 import paramiko.channel
@@ -263,7 +264,7 @@ class ParamikoSshServer(TCPServerBase):
         is_running: threading.Event,
         run_srv: threading.Event,
         session: paramiko.Transport,
-        shell: any,
+        shell: Any,
     ):
         """
         Method to monitor server liveness and recover where possible.
