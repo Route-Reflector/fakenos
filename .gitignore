@@ -143,3 +143,6 @@ act
 # internal dev .yaml files
 fake_nos.yaml
 inventory.yaml
+# local work artifacts
+design/
+workslog/
