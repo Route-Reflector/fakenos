@@ -6,8 +6,8 @@ This section is intended for anyone who wants to get involve on the development 
 
 Although, we highly encourage to read the [conventions section](development/conventions.md), here there is a brief resume of what you need to do to submit a successful pull request.
 
-!!! note 
-    You need to have already installed in your computer `python`, `docker` and `poetry` at least.
+!!! note
+    You need to have already installed in your computer `python`, `docker` and `uv` at least.
 
 1. Fork the project.
 2. Develop the code: code + **tests**.
@@ -16,4 +16,4 @@ Although, we highly encourage to read the [conventions section](development/conv
 5. If everything went okey, submit it for code review.
 
 !!! tip
-    Usually code review will take from a day to a few weeks. In case you want to use what you have already develop, you should look at [poetry repositories](https://python-poetry.org/docs/repositories/).
+    Usually code review will take from a day to a few weeks. In case you want to use what you have already developed, you can install the package from your local clone using `uv pip install -e .`.

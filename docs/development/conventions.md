@@ -1,14 +1,14 @@
 # Conventions
 This sections is intended to briefly explain all the tools used inside the project. Those tools are mainly there to ensure that the code is correctly written and tested.
 
-## General: Poetry
-Poetry is a tool for managing Python dependencies and packaging projects. It simplifies the process of managing dependencies by providing a consistent and declarative way to specify them in a `pyproject.toml` file. Poetry also handles virtual environment creation, package building, and publishing. It's often preferred by developers for its ease of use and integration with other tools in the Python ecosystem.
+## General: uv
+[uv](https://docs.astral.sh/uv/) is a fast Python package and project manager. It handles dependency resolution, virtual environment creation, package building, and publishing. All the configurations for the project can be found in the `pyproject.toml`.
 
-All the configurations for the project can be found ion the `pyproject.toml`. Here are some basic commands:
+Here are some basic commands:
 
-- `poetry install`: use it to install all the dependencies.
-- `poetry update`: use it to update the dependencies.
-- `poetry shell`: it enters the shell created using poetry install.
+- `uv sync`: use it to install all the dependencies and create the virtual environment.
+- `uv lock --upgrade`: use it to update the dependencies.
+- `source .venv/bin/activate`: activate the virtual environment, or use `uv run <command>` to run a command within the environment without activating it.
 
 ## Tests: Pytest
 Pytest is a testing framework for Python that makes it easy to write simple and scalable tests. It allows you to write test cases as regular Python functions, using assertions to verify expected outcomes. Pytest provides powerful features such as fixtures for setting up test environments, parameterized testing, and plugins for extending functionality. It's widely used in the Python community due to its simplicity, flexibility, and extensive ecosystem of plugins.
@@ -26,30 +26,14 @@ To run the bandit tool do the following:
 bandit -c pyproject.toml -r .
 ```
 
-## Basic formatting: Black
-Black is a Python code formatter that automatically formats your Python code according to a strict set of formatting rules. It ensures consistent code style across a project by automatically applying formatting such as indentation, line length, and spacing. Black follows the principle of "code formatting without configuration," meaning it applies its formatting rules uniformly without requiring any manual configuration or adjustment. It's often used to enforce a consistent code style in Python projects and to save developers time by automating the code formatting process.
+## Linting and formatting: Ruff
+[Ruff](https://docs.astral.sh/ruff/) is a fast Python linter and formatter that replaces Black, Flake8, and Pylint. It enforces code style, catches errors, and formats code automatically. Configuration is in `pyproject.toml` under `[tool.ruff]`.
 
-To run the black tool do the following:
+To run ruff do the following:
 ```bash
-black .
+ruff check .    # lint
+ruff format .   # format
 ```
-
-## Code complexity and compliance: Flake8
-Flake8 is a popular Python tool that combines multiple Python linting and style checking tools into a single package. It runs several checks on Python code for potential errors, code style violations, and adherence to PEP 8 style guidelines. Flake8 integrates tools like PyFlakes, pycodestyle (formerly known as pep8), and McCabe complexity checker, allowing developers to catch errors and enforce coding standards in their Python codebase. It's commonly used as a part of the development workflow to maintain code quality and readability.
-
-To run flake8 do the following:
-```bash
-flake8 .
-```
-
-## Code linting: Pylint
-Pylint is a Python code linting tool that analyzes source code to detect programming errors, code style issues, and coding conventions. Pylint checks Python code for potential issues such as syntax errors, unused variables, unconventional variable names, and other violations of coding guidelines. It's a valuable tool for improving code quality, identifying coding issues, and maintaining consistency in coding standards.
-
-To run the pylint tool do the following:
-```bash
-pylint fakenos
-```
-
 
 ## Code coverage: coverage
 Coverage is a tool used in software development to measure the extent to which the source code of a program is executed during testing. It helps developers understand how thoroughly their tests exercise the codebase by providing metrics on code coverage, typically expressed as a percentage. Coverage tools track which lines or branches of code are executed during tests and generate reports highlighting areas that are covered and those that are not. This information enables developers to identify untested code paths and improve the effectiveness of their testing efforts.
