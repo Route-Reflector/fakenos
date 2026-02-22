@@ -44,7 +44,6 @@ dependencies = [
 
 
     "detect==2020.12.*",
-    "tomli>=2.3.0",
 ]
 
 
@@ -143,7 +142,7 @@ dev = [
     "bandit",
     "coverage",
     "invoke",
-    "pre-commit==2.15.*",
+    "pre-commit>=3.8.0,<4.0.0",
     "pyenchant",
     "netmiko",
     "requests",
@@ -152,7 +151,6 @@ dev = [
     "mkdocs-material",
     "mkdocs-static-i18n",
     "pymdown-extensions",
-    "toml", # Toml parser (only upto 3.10)
     "yamllint", # YAML linter
     "zensical>=0.0.6",
 ]
