@@ -28,5 +28,4 @@ repos:
         name: bandit
         language: system
         entry: bandit
-        args: ["-c", "pyproject.toml"]
-        exclude: ^tests/|^docs/|^update_platforms\.py$
+        args: ["-c", "pyproject.toml", "--recursive", "."]

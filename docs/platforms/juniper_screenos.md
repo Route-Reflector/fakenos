@@ -2,8 +2,8 @@
 
 
 !!! warning
-    This is automatically generated. In case of any issues, 
-    please refer to the source code or, even better, 
+    This is automatically generated. In case of any issues,
+    please refer to the source code or, even better,
     open an issue on the GitHub repository. Thanks! 🤗📖
 ## Platforms:
 
@@ -55,4 +55,3 @@ IPv4 Dest-Routes for <trust-vr> (4 entries)
 **Prompt:**
 - juniper_screenos>
 - juniper_screenos#
-

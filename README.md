@@ -17,7 +17,7 @@ FakeNOS created to simulate Network Operating Systems interactions.
 
 ## Why?
 
-Crucial aspect of writing applications or scripts for Network Automation is 
+Crucial aspect of writing applications or scripts for Network Automation is
 testing, often testing done using physical or virtual instances of network
 appliances running certain version of Network Operating System (NOS). That
 approach, while gives best integration results, in many cases carries a lot
@@ -31,7 +31,7 @@ as connection establishment and handling.
 
 FakeNOS positions itself somewhere in the middle between full integration testing
 and testing that mocks device interactions. FakeNOS allows to create NOS plugins
-to produce pre-defined output to test applications behavior while running servers 
+to produce pre-defined output to test applications behavior while running servers
 to establish connections with.
 
 ## What?
@@ -47,13 +47,13 @@ FakeNOS can:
 
 ## How?
 
-Send input and get the output - this is how we interact with many 
-Network Operating Systems, FakeNOS allows to pre-define the output 
+Send input and get the output - this is how we interact with many
+Network Operating Systems, FakeNOS allows to pre-define the output
 to sent in response to certain input commands, making it ideal for
 isolated feature testing.
 
-FakeNOS is a micro-kernel framework that can be extended using plugins. 
-The core is kept small and optimized while most of the functionality 
+FakeNOS is a micro-kernel framework that can be extended using plugins.
+The core is kept small and optimized while most of the functionality
 offloaded to plugins.
 
 FakeNOS has these pluggable systems:
@@ -64,7 +64,7 @@ FakeNOS has these pluggable systems:
 
 ## What not?
 
-FakeNOS is a simulator, it does not emulate any of Network Control, Data 
+FakeNOS is a simulator, it does not emulate any of Network Control, Data
 or Management planes, it merely takes the commands as input and responds
 with predefined output.
 

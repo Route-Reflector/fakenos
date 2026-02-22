@@ -2,8 +2,8 @@
 
 
 !!! warning
-    This is automatically generated. In case of any issues, 
-    please refer to the source code or, even better, 
+    This is automatically generated. In case of any issues,
+    please refer to the source code or, even better,
     open an issue on the GitHub repository. Thanks! 🤗📖
 ## Platforms:
 
@@ -23,15 +23,15 @@
 **Output:**
 ```
 Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
-Interface    IP Address                        S/L  Description                 
----------    ----------                        ---  -----------                 
+Interface    IP Address                        S/L  Description
+---------    ----------                        ---  -----------
 eth0         -                                 u/u  Port
 eth1         192.168.1.1/24                    u/u  Eth 1
              2a05:c100:1d::1/64
 eth2         -                                 u/D  Port
 eth3         -                                 u/D  Port
 lo           127.0.0.1/8                       u/u
-             ::1/128      
+             ::1/128
 eth4         192.168.1.1/24                    u/u  datas
 eth4.2900    -                                 u/u
 eth5         2a05:c100:1d::1/64                u/u
@@ -80,7 +80,7 @@ Warning: leased IP address [2886804252] not in any of the pools
 Warning: leased IP address [2886804305] not in any of the pools
 IP address      Hardware Address   Lease expiration     Pool       Client Name
 ----------      ----------------   ----------------     ----       -----------
-125.125.15.12   00:0a:95:9d:68:16  Sep 18, 2021         5          HOSTNAME  
+125.125.15.12   00:0a:95:9d:68:16  Sep 18, 2021         5          HOSTNAME
 
 ```
 
@@ -194,30 +194,30 @@ C      fe80::/64 via ::, eth1, 01:11:25
 Type Codes:  SRC - source, DST - destination, MASQ - masquerade
               X at the front of rule implies rule is excluded
 
-rule   type  intf     translation                                               
-----   ----  ----     -----------                                               
-1      DST   pppoe4   daddr 23.90.233.198 to 192.168.1.100                      
-    proto-tcp         dport 8080 to 80                                              
+rule   type  intf     translation
+----   ----  ----     -----------
+1      DST   pppoe4   daddr 23.90.233.198 to 192.168.1.100
+    proto-tcp         dport 8080 to 80
 
-2      DST   pppoe4   daddr 23.90.233.198 to 192.168.1.231                      
-    proto-tcp         dport 65001 to 3389                                           
+2      DST   pppoe4   daddr 23.90.233.198 to 192.168.1.231
+    proto-tcp         dport 65001 to 3389
 
-3      DST   pppoe4   daddr 23.90.233.198 to 192.168.1.2                        
-    proto-tcp         dport 6666 to 6666                                            
+3      DST   pppoe4   daddr 23.90.233.198 to 192.168.1.2
+    proto-tcp         dport 6666 to 6666
 
-4      DST   pppoe4   daddr 23.90.233.198 to 192.168.1.111                      
-    proto-tcp_udp     dport 83 to 83                                                
+4      DST   pppoe4   daddr 23.90.233.198 to 192.168.1.111
+    proto-tcp_udp     dport 83 to 83
 
-5      DST   pppoe4   daddr 23.90.233.198 to 192.168.1.110                      
-    proto-tcp_udp     dport 80 to 80                                                
+5      DST   pppoe4   daddr 23.90.233.198 to 192.168.1.110
+    proto-tcp_udp     dport 80 to 80
 
-6      DST   pppoe4   daddr 23.90.233.198 to 192.168.1.1                        
-    proto-tcp_udp     dport 81 to 81                                                
+6      DST   pppoe4   daddr 23.90.233.198 to 192.168.1.1
+    proto-tcp_udp     dport 81 to 81
 
-5001   MASQ  pppoe4   saddr 192.168.1.0/24 to 23.90.233.198                     
-    proto-all         sport ANY                                                     
+5001   MASQ  pppoe4   saddr 192.168.1.0/24 to 23.90.233.198
+    proto-all         sport ANY
 
-5002   MASQ  pppoe4   saddr 192.168.42.0/24 to 23.90.233.198                    
+5002   MASQ  pppoe4   saddr 192.168.42.0/24 to 23.90.233.198
     proto-all         sport ANY
 
 ```
@@ -296,4 +296,3 @@ Uptime:       16:17:57 up 11 days,  6:15,  1 user,  load average: 0.09, 0.06, 0.
 **Prompt:**
 - ubiquiti_edgerouter>
 - ubiquiti_edgerouter#
-

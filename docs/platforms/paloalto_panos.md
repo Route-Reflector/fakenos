@@ -2,8 +2,8 @@
 
 
 !!! warning
-    This is automatically generated. In case of any issues, 
-    please refer to the source code or, even better, 
+    This is automatically generated. In case of any issues,
+    please refer to the source code or, even better,
     open an issue on the GitHub repository. Thanks! 🤗📖
 ## Platforms:
 
@@ -47,26 +47,26 @@ True
 ```
 total configured logical interfaces: 38
 ​
-name                id    vsys zone             forwarding               tag    address                                         
+name                id    vsys zone             forwarding               tag    address
 ------------------- ----- ---- ---------------- ------------------------ ------ ------------------
-ethernet1/1         16    1                     N/A                      0      N/A               
-ethernet1/2         17    1                     N/A                      0      N/A               
-ethernet1/2.100     275   1    ISP1         vr:default               100    65.5.44.46/30  
-ethernet1/3         18    1                     N/A                      0      N/A               
-ethernet1/3.101     278   1    ISP2         vr:default               101    65.5.26.46/30  
-ethernet1/4         19    1                     N/A                      0      N/A               
-ethernet1/4.102     256   1    WAN     vr:default               102    10.10.134.1/24  
-ethernet1/5         20    1                     N/A                      0      N/A               
+ethernet1/1         16    1                     N/A                      0      N/A
+ethernet1/2         17    1                     N/A                      0      N/A
+ethernet1/2.100     275   1    ISP1         vr:default               100    65.5.44.46/30
+ethernet1/3         18    1                     N/A                      0      N/A
+ethernet1/3.101     278   1    ISP2         vr:default               101    65.5.26.46/30
+ethernet1/4         19    1                     N/A                      0      N/A
+ethernet1/4.102     256   1    WAN     vr:default               102    10.10.134.1/24
+ethernet1/5         20    1                     N/A                      0      N/A
 ethernet1/5.103     261   1    Voice            vr:default               101    10.10.248.49/24
-ethernet1/6         21    1                     N/A                      0      N/A               
-ethernet1/6.104     265   1    Video            vr:default               901    10.10.10.1/24    
-ethernet1/7         22    1    Guest1   N/A                      0      N/A               
-ethernet1/7.700     267   1    Guest1   vr:default               700    10.10.100.1/23     
-dedicated-ha1       5     1                     ha                       0      10.1.1.1/30       
-dedicated-ha2       6     1                     ha                       0      10.2.2.1/30       
-vlan                1     1                     N/A                      0      N/A               
-loopback            3     1                     N/A                      0      N/A               
-tunnel              4     1                     N/A                      0      N/A   
+ethernet1/6         21    1                     N/A                      0      N/A
+ethernet1/6.104     265   1    Video            vr:default               901    10.10.10.1/24
+ethernet1/7         22    1    Guest1   N/A                      0      N/A
+ethernet1/7.700     267   1    Guest1   vr:default               700    10.10.100.1/23
+dedicated-ha1       5     1                     ha                       0      10.1.1.1/30
+dedicated-ha2       6     1                     ha                       0      10.2.2.1/30
+vlan                1     1                     N/A                      0      N/A
+loopback            3     1                     N/A                      0      N/A
+tunnel              4     1                     N/A                      0      N/A
 
 ```
 
@@ -154,7 +154,7 @@ netmask: 255.255.255.0
 default-gateway: 10.0.0.2
 ipv6-address: unknown
 ipv6-link-local-address: fe80::20c:29ff:fe6d:c67e/64
- ipv6-default-gateway: 
+ ipv6-default-gateway:
 mac-address: 00:0c:29:6d:c6:7e
 time: Thu Apr 28 06:33:12 2016
 uptime: 2 days, 2:38:49
@@ -202,7 +202,7 @@ operational-mode: normal
 
 **Output:**
 ```
-Group 1: 
+Group 1:
   Mode: Active-Passive
   Local Information:
     Version: 1
@@ -211,7 +211,7 @@ Group 1:
     Device Information:
       Model: PA-5020
       Management IPv4 Address: 10.10.186.197/24
-      Management IPv6 Address: 
+      Management IPv6 Address:
       Jumbo-Frames disabled; MTU 1500
     HA1 Control Links Joint Configuration:
       Link Monitor Interval: 3000 ms
@@ -264,7 +264,7 @@ Group 1:
     Device Information:
       Model: PA-5020
       Management IPv4 Address: 10.10.186.198/24
-      Management IPv6 Address: 
+      Management IPv6 Address:
       Jumbo-Frames disabled; MTU 1500
     HA1 Control Link Information:
       IP Address: 10.1.1.2
@@ -650,7 +650,7 @@ Ipv6 address: unknown
 Ipv6 link local address: fe80::a66:1fff:fe02:4a3/64
  Ipv6 default gateway:
 -------------------------------------------------------------------------------
- 
+
 
 -------------------------------------------------------------------------------
  Logical interface counters:
@@ -673,4 +673,3 @@ multicast packets received        0
 **Prompt:**
 - paloalto_panos>
 - paloalto_panos#
-

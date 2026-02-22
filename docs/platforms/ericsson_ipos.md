@@ -2,8 +2,8 @@
 
 
 !!! warning
-    This is automatically generated. In case of any issues, 
-    please refer to the source code or, even better, 
+    This is automatically generated. In case of any issues,
+    please refer to the source code or, even better,
     open an issue on the GitHub repository. Thanks! 🤗📖
 ## Platforms:
 
@@ -229,4 +229,3 @@ Router Up Time -  10 hours 48 minutes 41 seconds
 **Prompt:**
 - ericsson_ipos>
 - ericsson_ipos#
-

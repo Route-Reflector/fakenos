@@ -24,9 +24,11 @@ curl -LsSf https://astral.sh/uv/install.sh | sh # (1)
 git clone https://github.com/fakenos/fakenos     # (2)
 cd fakenos                                       # (3)
 uv sync                                         # (4)
+uv run pre-commit install                       # (5)
 ```
 
 1.  Install uv
 2.  Clone FakeNOS repository from GitHub master branch
 3.  Navigate to fakenos folder
 4.  Run uv to create virtual environment and install dependencies
+5.  Enable pre-commit hooks for automatic code checks on git commit

@@ -269,7 +269,11 @@ class FakeNOS:
         """
         hosts: List[str] = self._get_hosts_as_list(hosts)
         self._execute_function_over_hosts(
-            hosts, "start", host_running=False, parallel=parallel, workers=workers,
+            hosts,
+            "start",
+            host_running=False,
+            parallel=parallel,
+            workers=workers,
         )
         log.info(
             "The following devices has been initiated: %s",
@@ -294,7 +298,11 @@ class FakeNOS:
         """
         hosts: List[str] = self._get_hosts_as_list(hosts)
         self._execute_function_over_hosts(
-            hosts, "stop", host_running=True, parallel=parallel, workers=workers,
+            hosts,
+            "stop",
+            host_running=True,
+            parallel=parallel,
+            workers=workers,
         )
         if hosts == list(self.hosts.values()):
             self._join_threads()

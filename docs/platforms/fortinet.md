@@ -2,8 +2,8 @@
 
 
 !!! warning
-    This is automatically generated. In case of any issues, 
-    please refer to the source code or, even better, 
+    This is automatically generated. In case of any issues,
+    please refer to the source code or, even better,
     open an issue on the GitHub repository. Thanks! 🤗📖
 ## Platforms:
 
@@ -185,7 +185,7 @@ Botnet DB: 1.00000(2012-05-28 22:51)
 BIOS version: 05000006
 System Part-Number: P12917-08
 Log hard disk: Available
-Hostname: MYCOOLEFIREWALLNAME 
+Hostname: MYCOOLEFIREWALLNAME
 Operation Mode: NAT
 Current virtual domain: root
 Max number of virtual domains: 10
@@ -268,10 +268,10 @@ BGP table version is 13
 0 BGP community entries
 
 Neighbor        V         AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
-10.204.35.84   4      65302   43173   43182        0    0    0 09w3d01h Active     
+10.204.35.84   4      65302   43173   43182        0    0    0 09w3d01h Active
 10.205.35.95   4      65302  107081  107168       12    0    0 05:48:47        1
-169.132.250.17  4       4224       0       0        0    0    0    never Idle       
-169.132.250.21  4       4224       0       0        0    0    0    never Idle       
+169.132.250.17  4       4224       0       0        0    0    0    never Idle
+169.132.250.21  4       4224       0       0        0    0    0    never Idle
 
  Total number of neighbors 4
 
@@ -342,4 +342,3 @@ Address           Age(min)   Hardware Addr      Interface
 **Prompt:**
 - fortinet>
 - fortinet#
-
