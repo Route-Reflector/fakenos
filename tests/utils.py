@@ -38,7 +38,7 @@ def get_random_available_platform():
 def get_platforms_from_md() -> list[str]:
     """Get the platforms in the platforms.md file."""
     platforms = []
-    with open("docs/platforms.en.md", encoding="utf-8") as file:
+    with open("docs/platforms/index.md", encoding="utf-8") as file:
         for line in file:
             if line.startswith("- ["):
                 platform = line[1:].strip()  # Remove the dash and whitespace
