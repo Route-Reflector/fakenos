@@ -260,22 +260,35 @@ class ChannelToShellTapTest(unittest.TestCase):
 
         self.assertEqual(self.mock_shell_replied_event.clear.call_count, 2)
 
-    def test_channel_to_shell_tap_byte_return_x00_or_empty(self):
-        """Check that the ChannelToShellTap object returns a character."""
-        self.mock_run_srv.is_set.side_effect = [True] * 3 + [False]
-        self.mock_channel_stdio.read.side_effect = [b"\x00", b"", b"\n"]
+    def test_channel_to_shell_tap_nul_bytes_are_dropped(self):
+        """NUL bytes should be silently dropped (not echoed, not buffered)."""
+        self.mock_run_srv.is_set.side_effect = [True, True, True, False]
+        self.mock_channel_stdio.read.side_effect = [b"\x00", b"a", b"\n"]
         channel_to_shell_tap(
             channel_stdio=self.mock_channel_stdio,
             shell_stdin=self.mock_shell_stdin,
             shell_replied_event=self.mock_shell_replied_event,
             run_srv=self.mock_run_srv,
         )
-        self.mock_channel_stdio.write.assert_any_call(b"\x00")
-        self.mock_channel_stdio.write.assert_any_call(b"")
-        self.assertEqual(self.mock_channel_stdio.write.call_count, 3)
+        # NUL byte must NOT be echoed to channel
+        for call_args in self.mock_channel_stdio.write.call_args_list:
+            self.assertNotEqual(call_args, unittest.mock.call(b"\x00"))
+        # "a" echoed + "\r\n" for newline = 2 writes
+        self.assertEqual(self.mock_channel_stdio.write.call_count, 2)
+        self.mock_shell_stdin.write.assert_called_with("a\n")
 
-        self.assertEqual(self.mock_channel_stdio.write.call_count, 3)
-        self.mock_shell_stdin.write.assert_called_with("\n")
+    def test_channel_to_shell_tap_empty_byte_causes_exit(self):
+        """Empty byte (EOF) should cause the loop to exit."""
+        self.mock_run_srv.is_set.side_effect = [True, True]
+        self.mock_channel_stdio.read.side_effect = [b"", b"\n"]
+        channel_to_shell_tap(
+            channel_stdio=self.mock_channel_stdio,
+            shell_stdin=self.mock_shell_stdin,
+            shell_replied_event=self.mock_shell_replied_event,
+            run_srv=self.mock_run_srv,
+        )
+        # Empty byte triggers break before any write
+        self.mock_channel_stdio.write.assert_not_called()
 
     def test_channel_to_shell_tap_byte_return_other(self):
         """Check that the ChannelToShellTap object returns a character."""

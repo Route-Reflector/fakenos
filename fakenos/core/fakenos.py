@@ -3,6 +3,7 @@ Main module to interact with FakeNOS servers.
 It is the entry point to start, stop and list FakeNOS servers.
 """
 
+import concurrent.futures
 import copy
 import logging
 import platform
@@ -253,14 +254,23 @@ class FakeNOS:
         hosts_list = [self.hosts[host] for host in hosts]
         return hosts_list
 
-    def start(self, hosts: Optional[Union[str, list]] = None) -> None:  # type: ignore
+    def start(
+        self,
+        hosts: Optional[Union[str, list]] = None,
+        parallel: bool = False,
+        workers: Optional[int] = None,
+    ) -> None:  # type: ignore
         """
         Function to start NOS servers instances
 
         :param hosts: single or list of hosts to start by their name.
+        :param parallel: if True, start hosts in parallel using threads.
+        :param workers: max number of worker threads (default: min(32, host_count)).
         """
         hosts: List[str] = self._get_hosts_as_list(hosts)
-        self._execute_function_over_hosts(hosts, "start", host_running=False)
+        self._execute_function_over_hosts(
+            hosts, "start", host_running=False, parallel=parallel, workers=workers,
+        )
         log.info(
             "The following devices has been initiated: %s",
             [host.name for host in hosts],
@@ -268,15 +278,24 @@ class FakeNOS:
         for host in hosts:
             log.info("Device %s is running on port %s", host.name, host.port)
 
-    def stop(self, hosts: Optional[Union[str, List[str]]] = None) -> None:
+    def stop(
+        self,
+        hosts: Optional[Union[str, List[str]]] = None,
+        parallel: bool = False,
+        workers: Optional[int] = None,
+    ) -> None:
         """
         Function to stop NOS servers instances. It waits 2 seconds
         just in case that there is any thread doing something.
 
         :param hosts: single or list of hosts to stop by their name.
+        :param parallel: if True, stop hosts in parallel using threads.
+        :param workers: max number of worker threads (default: min(32, host_count)).
         """
         hosts: List[str] = self._get_hosts_as_list(hosts)
-        self._execute_function_over_hosts(hosts, "stop", host_running=True)
+        self._execute_function_over_hosts(
+            hosts, "stop", host_running=True, parallel=parallel, workers=workers,
+        )
         if hosts == list(self.hosts.values()):
             self._join_threads()
 
@@ -287,24 +306,45 @@ class FakeNOS:
         all_threads = threading.enumerate()
         for thread in all_threads:
             if thread is not threading.main_thread() and "pytest_timeout" not in thread.name:
-                thread.join()
+                thread.join(timeout=5)
+        deadline = time.monotonic() + 10
         n_threads: int = 2 if detect.windows else 1
         while threading.active_count() > n_threads:
+            if time.monotonic() > deadline:
+                log.warning("Some threads did not exit within timeout")
+                break
             time.sleep(0.01)
 
-    def _execute_function_over_hosts(self, hosts: List[Host], func: str, host_running: bool = True):
+    def _execute_function_over_hosts(
+        self,
+        hosts: List[Host],
+        func: str,
+        host_running: bool = True,
+        parallel: bool = False,
+        workers: Optional[int] = None,
+    ):
         """
         Function that executes a function like start or stop over
         the selected hosts.
 
         :param hosts: list of Hosts objects in which the function will
         be executed.
+        :param parallel: if True, execute in parallel using threads.
+        :param workers: max number of worker threads.
         """
         for host in hosts:
             if host not in self.hosts.values():
                 raise ValueError(f"Host {host} not found")
-            if host.running == host_running:
-                getattr(host, func)()
+        targets = [h for h in hosts if h.running == host_running]
+        if not parallel or len(targets) <= 1:
+            for h in targets:
+                getattr(h, func)()
+            return
+        max_workers = workers or min(32, len(targets))
+        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as ex:
+            futures = [ex.submit(getattr(h, func)) for h in targets]
+            for f in futures:
+                f.result()
 
     def _register_nos_plugins(self) -> None:
         """

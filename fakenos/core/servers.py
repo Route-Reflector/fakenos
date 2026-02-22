@@ -78,11 +78,11 @@ class TCPServerBase(ABC):
             return
 
         self._is_running.clear()
-        self._listen_thread.join()
+        self._listen_thread.join(timeout=5)
         self._socket.close()
 
         for connection_thread in self._connection_threads:
-            connection_thread.join()
+            connection_thread.join(timeout=2)
 
     def _listen(self):
         """
