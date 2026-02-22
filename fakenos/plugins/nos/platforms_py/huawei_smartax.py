@@ -4,7 +4,6 @@ NOS module for Huawei SmartAX
 
 # import time
 # import os
-from typing import List
 
 from fakenos.plugins.nos.platforms_py.base_template import BaseDevice
 
@@ -22,7 +21,7 @@ class HuaweiSmartAX(BaseDevice):
     Class that keeps track of the state of the Huawei SmartAX device.
     """
 
-    def _add_whitespaces(self, column: List[str]):
+    def _add_whitespaces(self, column: list[str]):
         """
         Add whitespacing to a column depending on the
         largest element in the column.
@@ -40,18 +39,17 @@ class HuaweiSmartAX(BaseDevice):
             "SubType1",
             "Online/Offline",
         ]
-        boards = []
-        for board in range(self.configurations["boards"]["num"]):
-            boards.append(
-                {
-                    titles[0]: self.configurations["boards"]["slots"][board]["slot_id"],
-                    titles[1]: self.configurations["boards"]["slots"][board]["boardname"],
-                    titles[2]: self.configurations["boards"]["slots"][board]["status"],
-                    titles[3]: self.configurations["boards"]["slots"][board]["subtype0"],
-                    titles[4]: self.configurations["boards"]["slots"][board]["subtype1"],
-                    titles[5]: self.configurations["boards"]["slots"][board]["online_offline"],
-                }
-            )
+        boards = [
+            {
+                titles[0]: self.configurations["boards"]["slots"][board]["slot_id"],
+                titles[1]: self.configurations["boards"]["slots"][board]["boardname"],
+                titles[2]: self.configurations["boards"]["slots"][board]["status"],
+                titles[3]: self.configurations["boards"]["slots"][board]["subtype0"],
+                titles[4]: self.configurations["boards"]["slots"][board]["subtype1"],
+                titles[5]: self.configurations["boards"]["slots"][board]["online_offline"],
+            }
+            for board in range(self.configurations["boards"]["num"])
+        ]
         for index, title in enumerate(titles):
             board_column = [board[title] for board in boards]
             results = self._add_whitespaces([title, *board_column])

@@ -10,7 +10,6 @@ import platform
 import socket
 import threading
 import time
-from typing import Dict, List, Optional, Set, Union
 
 import detect
 import yaml
@@ -75,14 +74,14 @@ class FakeNOS:
 
     def __init__(
         self,
-        inventory: Optional[dict] = None,
-        plugins: Optional[list] = None,
+        inventory: dict | None = None,
+        plugins: list | None = None,
     ) -> None:
         self.inventory: dict = inventory or default_inventory
         self.plugins: list = plugins or []
 
-        self.hosts: Dict[str, Host] = {}
-        self.allocated_ports: Set[str] = set()
+        self.hosts: dict[str, Host] = {}
+        self.allocated_ports: set[str] = set()
 
         self.shell_plugins = shell_plugins
         self.nos_plugins = nos_plugins
@@ -113,7 +112,7 @@ class FakeNOS:
 
     def _load_inventory_yaml(self) -> None:
         """Helper method to load FakeNOS inventory if it is yaml."""
-        with open(self.inventory, "r", encoding="utf-8") as f:
+        with open(self.inventory, encoding="utf-8") as f:
             self.inventory = yaml.safe_load(f.read())
 
     def _load_inventory(self) -> None:
@@ -139,7 +138,7 @@ class FakeNOS:
                 **copy.deepcopy(self.inventory["default"]),
                 **copy.deepcopy(host_config),
             }
-            port: Union[int, list] = params.pop("port")
+            port: int | list = params.pop("port")
             replicas: int = params.pop("replicas", None)
             self._check_ports_and_replicas_are_okey(port, replicas)
             self._instantiate_host_object(host_name, port, replicas, params)
@@ -167,7 +166,7 @@ class FakeNOS:
                     must be equal to the number of replicas."
             )
 
-    def _instantiate_host_object(self, host_name: str, port: Union[int, List[int]], replicas: int, params: dict):
+    def _instantiate_host_object(self, host_name: str, port: int | list[int], replicas: int, params: dict):
         """
         Method that instantiate the host objects. It initializes the hosts
         with the corresponding name, port and network operating system
@@ -179,10 +178,10 @@ class FakeNOS:
                                     the host like configurations
         """
         hosts_name, ports = self._get_hosts_and_ports(host_name, port, replicas)
-        for h_name, p in zip(hosts_name, ports):
+        for h_name, p in zip(hosts_name, ports, strict=True):
             self._instantiate_single_host_object(h_name, p, params)
 
-    def _get_hosts_and_ports(self, host_name: str, port: Union[int, List[int]], replicas: Optional[int] = None):
+    def _get_hosts_and_ports(self, host_name: str, port: int | list[int], replicas: int | None = None):
         """
         Method to get hosts and ports correctly
         depending on the number of replicas (if exists).
@@ -191,8 +190,8 @@ class FakeNOS:
         :param port: integer or list of two integers - port to allocate
         :param replicas: integer - number of hosts to create
         """
-        hosts_name: Set[str] = {}
-        ports: Set[int] = {}
+        hosts_name: set[str] = {}
+        ports: set[int] = {}
 
         if replicas:
             hosts_name = {f"{host_name}{i}" for i in range(replicas)}
@@ -214,7 +213,7 @@ class FakeNOS:
         self._allocate_port(port)
         self.hosts[host] = Host(name=host, port=port, fakenos=self, **params)
 
-    def _allocate_port(self, port: Union[int, List[int]]) -> None:
+    def _allocate_port(self, port: int | list[int]) -> None:
         """
         Method to allocate port for host
 
@@ -222,7 +221,7 @@ class FakeNOS:
                      range to allocate port from
         """
         if isinstance(port, int):
-            port: List[int] = [port]
+            port: list[int] = [port]
 
         for p in port:
             allocated_port = self._allocate_port_single(p)
@@ -239,14 +238,14 @@ class FakeNOS:
         self.allocated_ports.add(port)
         return port
 
-    def _get_hosts_as_list(self, hosts: Optional[Union[str, List[str]]] = None) -> List[Host]:
+    def _get_hosts_as_list(self, hosts: str | list[str] | None = None) -> list[Host]:
         """
         Helper method to get hosts as list
 
         :param hosts: string or list of strings
         :return: list of strings
         """
-        hosts_list: List[Host] = []
+        hosts_list: list[Host] = []
         if not hosts:
             hosts = list(self.hosts.keys())
         if isinstance(hosts, str):
@@ -256,9 +255,9 @@ class FakeNOS:
 
     def start(
         self,
-        hosts: Optional[Union[str, list]] = None,
+        hosts: str | list | None = None,
         parallel: bool = False,
-        workers: Optional[int] = None,
+        workers: int | None = None,
     ) -> None:  # type: ignore
         """
         Function to start NOS servers instances
@@ -267,7 +266,7 @@ class FakeNOS:
         :param parallel: if True, start hosts in parallel using threads.
         :param workers: max number of worker threads (default: min(32, host_count)).
         """
-        hosts: List[str] = self._get_hosts_as_list(hosts)
+        hosts: list[str] = self._get_hosts_as_list(hosts)
         self._execute_function_over_hosts(
             hosts,
             "start",
@@ -284,9 +283,9 @@ class FakeNOS:
 
     def stop(
         self,
-        hosts: Optional[Union[str, List[str]]] = None,
+        hosts: str | list[str] | None = None,
         parallel: bool = False,
-        workers: Optional[int] = None,
+        workers: int | None = None,
     ) -> None:
         """
         Function to stop NOS servers instances. It waits 2 seconds
@@ -296,7 +295,7 @@ class FakeNOS:
         :param parallel: if True, stop hosts in parallel using threads.
         :param workers: max number of worker threads (default: min(32, host_count)).
         """
-        hosts: List[str] = self._get_hosts_as_list(hosts)
+        hosts: list[str] = self._get_hosts_as_list(hosts)
         self._execute_function_over_hosts(
             hosts,
             "stop",
@@ -325,11 +324,11 @@ class FakeNOS:
 
     def _execute_function_over_hosts(
         self,
-        hosts: List[Host],
+        hosts: list[Host],
         func: str,
         host_running: bool = True,
         parallel: bool = False,
-        workers: Optional[int] = None,
+        workers: int | None = None,
     ):
         """
         Function that executes a function like start or stop over
@@ -387,7 +386,7 @@ def _get_free_port() -> int:
         return s.getsockname()[1]
 
 
-def fakenos(platform: Optional[str] = None, inventory: Optional[dict] = None, return_instance: bool = False):
+def fakenos(platform: str | None = None, inventory: dict | None = None, return_instance: bool = False):
     """
     Decorator to run a test with FakeNOS server.
     """

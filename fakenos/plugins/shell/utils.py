@@ -4,12 +4,11 @@ a collection of utilities for the shell.
 """
 
 import os
-from typing import Dict, List
 
 
 def get_files_under_directory(directory):
     """Method to get files under a directory"""
-    files: List = []
+    files: list = []
     for root, _, filenames in os.walk(directory):
         if "__pycache__" in root:
             continue
@@ -25,17 +24,17 @@ def get_files_lasttime_changed(files):
     return {file: os.stat(file).st_mtime for file in files}
 
 
-def get_new_files(old_files: List[str], new_files: List[str]):
+def get_new_files(old_files: list[str], new_files: list[str]):
     """Compare old files with new files and return new files"""
     return [file for file in new_files if file not in old_files]
 
 
-def get_files_recently_modified(files: List[str], files_lasttime_changed_old: Dict[str, float]):
+def get_files_recently_modified(files: list[str], files_lasttime_changed_old: dict[str, float]):
     """Method to get files recently modified"""
     return [file for file in files if os.stat(file).st_mtime != files_lasttime_changed_old.get(file, 0)]
 
 
-def change_jinja_to_corresponding_py(files: List[str]):
+def change_jinja_to_corresponding_py(files: list[str]):
     """Method to change j2 files to corresponding py files"""
     jinja_files = [file for file in files if file.endswith(".j2")]
     files: set = {file for file in files if not file.endswith(".j2")}
@@ -45,7 +44,7 @@ def change_jinja_to_corresponding_py(files: List[str]):
             platform = os.path.basename(filepath).replace(".yaml.j2", "").replace(".yaml", "")
             files.add(f"{base_filepath}/{platform}.py")
         else:
-            split: List[str] = filepath.rsplit("/", 3)
+            split: list[str] = filepath.rsplit("/", 3)
             corresponding_py_module = f"{split[0]}/{split[2]}.py"
             files.add(corresponding_py_module)
     return list(files)
@@ -53,8 +52,8 @@ def change_jinja_to_corresponding_py(files: List[str]):
 
 def get_files_changed(directory: str):
     """Method to get files changed under a directory"""
-    files_changed: List[str] = []
-    files_under_directory: List[str] = get_files_under_directory(directory)
+    files_changed: list[str] = []
+    files_under_directory: list[str] = get_files_under_directory(directory)
     if not hasattr(get_files_changed, "files_lasttime_changed_old"):
         get_files_changed.files_lasttime_changed_old = get_files_lasttime_changed(files_under_directory)
     files_changed += get_new_files(get_files_changed.files_lasttime_changed_old.keys(), files_under_directory)

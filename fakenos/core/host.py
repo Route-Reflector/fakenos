@@ -5,9 +5,8 @@ It also validates the host object using pydantic.
 """
 
 import logging
-from typing import Optional
 
-from fakenos.core.nos import available_platforms, Nos
+from fakenos.core.nos import Nos, available_platforms
 from fakenos.core.pydantic_models import ModelHost
 
 log = logging.getLogger(__name__)
@@ -30,8 +29,8 @@ class Host:
         shell: dict,
         nos: dict,
         fakenos,
-        platform: Optional[str] = None,
-        configuration_file: Optional[str] = None,
+        platform: str | None = None,
+        configuration_file: str | None = None,
     ) -> None:
         self.name: str = name
         self.server_inventory: dict = server

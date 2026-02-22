@@ -5,7 +5,6 @@ Network Operating Systems (NOS). Base class to build NOS plugins instances to us
 import importlib.util
 import logging
 import os
-from typing import List, Optional, Union
 
 import yaml
 
@@ -13,7 +12,7 @@ from fakenos.core.pydantic_models import ModelNosAttributes
 
 log = logging.getLogger(__name__)
 
-available_platforms: List[str] = [
+available_platforms: list[str] = [
     "alcatel_aos",
     "alcatel_sros",
     "allied_telesis_awplus",
@@ -67,11 +66,11 @@ class Nos:
     def __init__(
         self,
         name: str = "FakeNOS",
-        commands: Optional[dict] = None,
+        commands: dict | None = None,
         initial_prompt: str = "FakeNOS>",
-        filename: Optional[Union[str, List[str]]] = None,
-        configuration_file: Optional[str] = None,
-        dict_args: Optional[dict] = None,
+        filename: str | list[str] | None = None,
+        configuration_file: str | None = None,
+        dict_args: dict | None = None,
     ) -> None:
         """
         Method to instantiate Nos Instance
@@ -167,7 +166,7 @@ class Nos:
 
         :param data: YAML structured text
         """
-        with open(data, "r", encoding="utf-8") as f:
+        with open(data, encoding="utf-8") as f:
             self.from_dict(yaml.safe_load(f))
 
     def _from_module(self, filename: str) -> None:

@@ -103,7 +103,7 @@ class TCPServerBase(ABC):
                 )
                 connection_thread.start()
                 self._connection_threads.append(connection_thread)
-            except socket.timeout:
+            except TimeoutError:
                 pass
 
     @abstractmethod

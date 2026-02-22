@@ -15,7 +15,6 @@ and the output for each device.
 import os
 import re
 import subprocess
-from typing import Dict, List, Tuple
 
 import requests
 
@@ -69,7 +68,7 @@ def check_platforms_in_md(md_file):
     Check which platforms from the given list are also
     mentioned in the specified markdown file.
     """
-    with open(md_file, "r", encoding="utf-8") as file:
+    with open(md_file, encoding="utf-8") as file:
         content = file.read()
     match = re.search(r"###### Supported SSH device_type values\n((?:.|\n)*?)\n\n", content)
     if match:
@@ -81,7 +80,7 @@ def check_platforms_in_md(md_file):
     return []
 
 
-def download_and_extract_platforms(url: str, local_path: str) -> List[str]:
+def download_and_extract_platforms(url: str, local_path: str) -> list[str]:
     """
     Download a file from the given URL and extract the platforms from it.
     The platforms are extracted from the section
@@ -93,7 +92,7 @@ def download_and_extract_platforms(url: str, local_path: str) -> List[str]:
     return check_platforms_in_md(local_path)
 
 
-def get_commands(platform_name: str) -> Dict[str, str]:
+def get_commands(platform_name: str) -> dict[str, str]:
     """
     Get the commands and outputs from the tests files for a specific platform.
     """
@@ -105,7 +104,7 @@ def get_commands(platform_name: str) -> Dict[str, str]:
     return commands
 
 
-def get_command_and_output(test_file: str, platform_name: str) -> Tuple[str, str]:
+def get_command_and_output(test_file: str, platform_name: str) -> tuple[str, str]:
     """
     Get the commands and outputs from a specific test file for a platform.
     """
@@ -113,7 +112,7 @@ def get_command_and_output(test_file: str, platform_name: str) -> Tuple[str, str
         f"{tmp_ntc_templates_dir}/tests/{platform_name}/{test_file}", ".raw"
     )[0]
     content: str = ""
-    with open(filename, "r", encoding="utf-8") as file:
+    with open(filename, encoding="utf-8") as file:
         content = file.read()
     command = test_file.replace("_", " ")
     return command, content
@@ -159,7 +158,7 @@ def generate_platform_yaml(platform_name: str, commands: dict):
 
 clone_or_update_repository("https://github.com/networktocode/ntc-templates", tmp_ntc_templates_dir)
 
-platforms: List[str] = get_directories_in_folder(f"{tmp_ntc_templates_dir}/tests")
+platforms: list[str] = get_directories_in_folder(f"{tmp_ntc_templates_dir}/tests")
 
 available_netmiko_platforms = download_and_extract_platforms(netmiko_platforms_url, "/tmp/PLATFORMS.md")
 common_platforms = set(platforms) & set(available_netmiko_platforms)
@@ -174,5 +173,5 @@ commands: dict = {}
 for platform in common_platforms:
     commands[platform] = get_commands(platform)
 
-for platform, commands in commands.items():
-    generate_platform_yaml(platform, commands)
+for platform, cmds in commands.items():
+    generate_platform_yaml(platform, cmds)

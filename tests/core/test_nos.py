@@ -27,7 +27,7 @@ class NosTest(unittest.TestCase):
         """
         Setup class for NosTest.
         """
-        with open("tests/assets/yaml_nos.yaml", "r", encoding="utf-8") as yml_file:
+        with open("tests/assets/yaml_nos.yaml", encoding="utf-8") as yml_file:
             cls.commands = yaml.safe_load(yml_file)["commands"]
 
     def test_init_without_arguments(self):
@@ -361,7 +361,7 @@ class NosTest(unittest.TestCase):
         Test that the configuration file is loaded.
         """
         configuration_file = "tests/assets/test_module.yaml.j2"
-        with open(configuration_file, "r", encoding="utf-8") as file:
+        with open(configuration_file, encoding="utf-8") as file:
             data = file.read()
         nos = Nos(filename="tests/assets/module.py", configuration_file=configuration_file)
         assert nos.configuration_file == configuration_file

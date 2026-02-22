@@ -4,22 +4,17 @@ File to contain pydantic models for plugins input/output data validation
 
 from __future__ import annotations
 
-import sys
-from typing import Callable, Dict, List, Optional, Union
+from collections.abc import Callable
+from typing import Literal
 
 from pydantic import (
     BaseModel,
     IPvAnyAddress,
-    model_validator,
     StrictBool,
     StrictInt,
     StrictStr,
+    model_validator,
 )
-
-if sys.version_info >= (3, 8):
-    from typing import Literal  # works with >=py3.8
-else:
-    from typing_extensions import Literal  # works with <py3.8I
 
 # ---------------------------------------------------------------------------------------
 # NOS plugin commands model
@@ -31,11 +26,11 @@ class ModelNosCommand(BaseModel):
     Pydantic model for NOS command attributes.
     """
 
-    output: Optional[Union[StrictStr, None, Callable, StrictBool]] = None
-    help: Optional[StrictStr] = None
-    prompt: Optional[Union[StrictStr, List[StrictStr]]] = None
-    new_prompt: Optional[StrictStr] = None
-    alias: Optional[StrictStr] = None
+    output: StrictStr | None | Callable | StrictBool | None = None
+    help: StrictStr | None = None
+    prompt: StrictStr | list[StrictStr] | None = None
+    new_prompt: StrictStr | None = None
+    alias: StrictStr | None = None
 
 
 class ModelNosAttributes(BaseModel):
@@ -43,7 +38,7 @@ class ModelNosAttributes(BaseModel):
     Pydantic model for NOS attributes.
     """
 
-    commands: Dict[StrictStr, ModelNosCommand]
+    commands: dict[StrictStr, ModelNosCommand]
     name: StrictStr
     initial_prompt: StrictStr
 
@@ -57,7 +52,7 @@ class ModelHost(BaseModel):
     username: StrictStr
     password: StrictStr
     port: StrictInt
-    platform: Optional[StrictStr] = None
+    platform: StrictStr | None = None
 
 
 # ---------------------------------------------------------------------------------------
@@ -70,7 +65,7 @@ class NosPluginConfig(BaseModel):
     Pydantic model for NOS plugin configuration.
     """
 
-    commands: Optional[Dict[StrictStr, ModelNosCommand]] = None
+    commands: dict[StrictStr, ModelNosCommand] | None = None
 
 
 class NosPlugin(BaseModel):
@@ -79,7 +74,7 @@ class NosPlugin(BaseModel):
     """
 
     plugin: StrictStr
-    configuration: Optional[NosPluginConfig] = None
+    configuration: NosPluginConfig | None = None
 
 
 class ParamikoSshServerConfig(BaseModel):
@@ -87,12 +82,12 @@ class ParamikoSshServerConfig(BaseModel):
     Pydantic model for Paramiko SSH server configuration.
     """
 
-    ssh_key_file: Optional[StrictStr] = None
-    ssh_key_file_password: Optional[StrictStr] = None
-    ssh_banner: Optional[StrictStr] = "FakeNOS Paramiko SSH Server"
-    timeout: Optional[StrictInt] = 1
-    address: Optional[Union[Literal["localhost"], IPvAnyAddress]] = None
-    watchdog_interval: Optional[StrictInt] = 1
+    ssh_key_file: StrictStr | None = None
+    ssh_key_file_password: StrictStr | None = None
+    ssh_banner: StrictStr | None = "FakeNOS Paramiko SSH Server"
+    timeout: StrictInt | None = 1
+    address: Literal["localhost"] | IPvAnyAddress | None = None
+    watchdog_interval: StrictInt | None = 1
 
 
 class ParamikoSshServerPlugin(BaseModel):
@@ -101,7 +96,7 @@ class ParamikoSshServerPlugin(BaseModel):
     """
 
     plugin: Literal["ParamikoSshServer"]
-    configuration: Optional[ParamikoSshServerConfig] = None
+    configuration: ParamikoSshServerConfig | None = None
 
 
 class CMDShellConfig(BaseModel):
@@ -109,10 +104,10 @@ class CMDShellConfig(BaseModel):
     Pydantic model for CMD shell configuration.
     """
 
-    intro: Optional[StrictStr] = "Custom SSH Shell"
-    ruler: Optional[StrictStr] = ""
-    completekey: Optional[StrictStr] = "tab"
-    newline: Optional[StrictStr] = "\r\n"
+    intro: StrictStr | None = "Custom SSH Shell"
+    ruler: StrictStr | None = ""
+    completekey: StrictStr | None = "tab"
+    newline: StrictStr | None = "\r\n"
 
 
 class CMDShellPlugin(BaseModel):
@@ -121,7 +116,7 @@ class CMDShellPlugin(BaseModel):
     """
 
     plugin: Literal["CMDShell"]
-    configuration: Optional[CMDShellConfig] = None
+    configuration: CMDShellConfig | None = None
 
 
 class InventoryDefaultSection(BaseModel):
@@ -129,18 +124,18 @@ class InventoryDefaultSection(BaseModel):
     Pydantic model for FakeNOS inventory default section.
     """
 
-    username: Optional[StrictStr] = None
-    password: Optional[StrictStr] = None
+    username: StrictStr | None = None
+    password: StrictStr | None = None
     # port: Optional[Union[conint(strict=True, gt=0, le=65535),
     # conlist(conint(strict=True, gt=0, le=65535),
     # min_items=2, max_items=2, unique_items=True)]]
     # use this for now, mkdocstring having issue with pydantic
     # https://github.com/mkdocstrings/griffe/issues/66
-    port: Optional[Union[StrictInt, List[StrictInt]]] = None
-    configuration_file: Optional[StrictStr] = None
-    server: Optional[Union[ParamikoSshServerPlugin]] = None
-    shell: Optional[Union[CMDShellPlugin]] = None
-    nos: Optional[NosPlugin] = None
+    port: StrictInt | list[StrictInt] | None = None
+    configuration_file: StrictStr | None = None
+    server: ParamikoSshServerPlugin | None = None
+    shell: CMDShellPlugin | None = None
+    nos: NosPlugin | None = None
 
 
 class HostConfig(InventoryDefaultSection):
@@ -151,7 +146,7 @@ class HostConfig(InventoryDefaultSection):
     # count: Optional[conint(strict=True, gt=0)]
     # use this for now, mkdocstring having issue with pydantic
     # https://github.com/mkdocstrings/griffe/issues/66
-    replicas: Optional[StrictInt] = None
+    replicas: StrictInt | None = None
 
     @model_validator(mode="before")
     @classmethod
@@ -163,17 +158,16 @@ class HostConfig(InventoryDefaultSection):
         if "replicas" not in values and port:
             if not isinstance(port, int):
                 raise ValueError("If no host 'replicas' given, port must be an integer")
-        elif "replicas" in values and port:
-            if not isinstance(port, list):
-                raise ValueError("If host 'replicas' given, port must be a list")
+        elif "replicas" in values and port and not isinstance(port, list):
+            raise ValueError("If host 'replicas' given, port must be a list")
         return values
 
 
 class ModelFakenosInventory(BaseModel):
     """FakeNOS inventory data schema"""
 
-    default: Optional[InventoryDefaultSection] = None
-    hosts: Dict[StrictStr, HostConfig]
+    default: InventoryDefaultSection | None = None
+    hosts: dict[StrictStr, HostConfig]
 
     # pylint: disable=too-few-public-methods
     class ConfigDict:

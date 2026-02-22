@@ -7,7 +7,6 @@ import os
 import shutil
 import threading
 import time
-from typing import List
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
@@ -210,7 +209,7 @@ class TestCmdShell(TestCase):
         shell = CMDShell(**self.arguments)
         shell.writeline = Mock()
         shell.do_help("")
-        expected_output: List[str] = [
+        expected_output: list[str] = [
             "exit                Exit commands shell",
             "enable              enter exec prompt",
             "sh clock            ",
@@ -352,7 +351,7 @@ class HotReloadTest(TestCase):
         module = importlib.import_module(changed_module)
         mock_from_file.assert_called_once()
         mock_from_file.assert_called_once_with(module.__name__.replace(".", "/") + ".py")
-        assert all(key in shell.commands for key in module.commands.keys())
+        assert all(key in shell.commands for key in module.commands)
 
     @pytest.mark.skipif(detect.windows, reason="Windows does not allow file movement on Github runners")
     @fakenos(platform="cisco_ios", return_instance=True)
@@ -372,7 +371,7 @@ class HotReloadTest(TestCase):
 
         def change_file():
             shutil.copyfile(original_filename, copy_filename)
-            with open(original_filename, "r", encoding="utf-8") as file:
+            with open(original_filename, encoding="utf-8") as file:
                 values = yaml.safe_load(file)
             values["commands"].update(test_commands)
             with open(original_filename, "w", encoding="utf-8") as file:
