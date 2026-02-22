@@ -12,10 +12,10 @@ The following methods are not recommended unless you are doing development. If t
 ### Using pip
 Before installing this way, you need to download and install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). If you have already installed `git` just run the following command:
 ```bash
-python3 -m pip install git+https://github.com/dmulyalin/fakenos
+python3 -m pip install git+https://github.com/fakenos/fakenos
 ```
 
-# Using uv (Recommended for dev)
+## Using uv (Recommended for dev)
 FakeNOS uses [uv](https://docs.astral.sh/uv/) to manage dependencies and
 virtual environments. Follow steps below to install FakeNOS using uv:
 

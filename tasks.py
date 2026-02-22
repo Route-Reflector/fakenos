@@ -194,7 +194,6 @@ def cli(context):
 def tests(context, local=INVOKE_LOCAL):
     """Run all tests."""
     ruff(context, local=local)
-    # yamllint(context, local=local)
     bandit(context, local=local)
     pytest(context, local=local)
 
@@ -216,7 +215,6 @@ WARNING_MESSAGE = """
 """
 
 
-# pylint: disable=unused-argument
 @task
 def gen_docs_platform_commands(ctx):
     """
@@ -254,7 +252,6 @@ def gen_docs_platform_commands(ctx):
                 platforms_file.write("\n")
 
 
-# pylint: disable=unused-argument
 @task(help={"device_type": "The device type to connect to."})
 def netmiko_check(ctx, device_type: str):
     """
