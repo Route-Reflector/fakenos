@@ -22,7 +22,7 @@ The following list of platforms are supported by FakeNOS. All the platforms list
 - [brocade_fastiron](platforms/brocade_fastiron.md) ❌[See issue](https://github.com/fakenos/fakenos/issues/5)
 - [brocade_netiron](platforms/brocade_netiron.md) ✅
 - [checkpoint_gaia](platforms/checkpoint_gaia.md) ✅
-- [ciena_saos](platforms/ciena_saos.md) ❌[See issue in Netmiko](https://github.com/fakenos/fakenos/issues/14)
+- [ciena_saos](platforms/ciena_saos.md) ✅
 - [cisco_asa](platforms/cisco_asa.md) ✅
 - [cisco_ftd](platforms/cisco_ftd.md) ✅
 - [cisco_ios](platforms/cisco_ios.md) ✅
@@ -46,7 +46,7 @@ The following list of platforms are supported by FakeNOS. All the platforms list
 - [linux](platforms/linux.md) ✅
 - [mikrotik_routeros](platforms/mikrotik_routeros.md) ❌[See issue](https://github.com/fakenos/fakenos/issues/9)
 - [paloalto_panos](platforms/paloalto_panos.md) ❌[See issue](https://github.com/fakenos/fakenos/issues/7)
-- [ruckus_fastiron](platforms/ruckus_fastiron.md) ❌[See issue](https://github.com/fakenos/fakenos/issues/5)
+- [ruckus_fastiron](platforms/ruckus_fastiron.md) ✅
 - [ubiquiti_edgerouter](platforms/ubiquiti_edgerouter.md) ✅
 - [ubiquiti_edgeswitch](platforms/ubiquiti_edgeswitch.md) ✅
 - [vyatta_vyos](platforms/vyatta_vyos.md) ✅
