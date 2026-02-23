@@ -44,7 +44,7 @@ available_platforms: list[str] = [
     "huawei_vrp",
     "ipinfusion_ocnos",
     "juniper_junos",
-    # "juniper_screenos",
+    "juniper_screenos",
     "linux",
     # "mikrotik_routeros",
     # "paloalto_panos",

@@ -42,7 +42,7 @@ The following list of platforms are supported by FakeNOS. All the platforms list
 - [huawei_vrp](platforms/huawei_vrp.md) ✅
 - [ipinfusion_ocnos](platforms/ipinfusion_ocnos.md) ✅
 - [juniper_junos](platforms/juniper_junos.md) ✅
-- [juniper_screenos](platforms/juniper_screenos.md) ❌[See issue](https://github.com/fakenos/fakenos/issues/6)
+- [juniper_screenos](platforms/juniper_screenos.md) ✅
 - [linux](platforms/linux.md) ✅
 - [mikrotik_routeros](platforms/mikrotik_routeros.md) ❌[See issue](https://github.com/fakenos/fakenos/issues/9)
 - [paloalto_panos](platforms/paloalto_panos.md) ❌[See issue](https://github.com/fakenos/fakenos/issues/7)

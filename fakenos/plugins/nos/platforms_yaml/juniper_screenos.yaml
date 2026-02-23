@@ -1,19 +1,10 @@
 name: juniper_screenos
-initial_prompt: "{base_prompt}>"
-enable_prompt: "{base_prompt}#"
-config_prompt: "{base_prompt}(config)#"
+initial_prompt: "{base_prompt}->"
 commands:
-  enable:
-    output: null
-    new_prompt: "{base_prompt}#"
-    help: enter enable mode
-    prompt: "{base_prompt}>"
   set console page 0:
     output: null
     help: set the terminal width to maximum
-    prompt:
-    - "{base_prompt}>"
-    - "{base_prompt}#"
+    prompt: "{base_prompt}->"
   get route:
     output: "IPv4 Dest-Routes for <untrust-vr> (0 entries)\n----------------------------------------------------------------------\n
       H: Host C: Connected S: Static A: Auto-Exported\nI: Imported R: RIP P: Permanent
@@ -25,6 +16,4 @@ commands:
       \     192.168.1.0/24     eth0/0    0.0.0.0   C    0      0    Root\n*   3  \
       \       1.1.1.0/24     eth0/1    0.0.0.0   C    0      0    Root\n"
     help: execute the command "get route"
-    prompt:
-    - "{base_prompt}>"
-    - "{base_prompt}#"
+    prompt: "{base_prompt}->"
