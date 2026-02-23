@@ -16,4 +16,4 @@ Although, we highly encourage to read the [conventions section](development/conv
 5. If everything went okey, submit it for code review.
 
 !!! tip
-    Usually code review will take from a day to a few weeks. In case you want to use what you have already developed, you can install the package from your local clone using `uv pip install -e .`.
+    Usually code review will take from a day to a few weeks. In case you want to use what you have already developed, you can install the package from your local clone using `uv sync`.
