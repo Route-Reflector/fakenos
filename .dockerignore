@@ -1,7 +1,4 @@
 # Docker related
-development/Dockerfile
-development/docker-compose*.yml
-development/*.env
 *.env
 environments/
 
@@ -24,5 +21,4 @@ LICENSE
 **/*.log
 **/.vscode/
 invoke*.yml
-tasks.py
 site/

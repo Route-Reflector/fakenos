@@ -119,7 +119,7 @@ def run_cmd(context, exec_cmd, local=INVOKE_LOCAL, port=None):
 def build(context, cache=True, force_rm=False, hide=False):
     """Build a Docker image."""
     print(f"Building image {IMAGE_NAME}:{IMAGE_VER}")
-    command = f"docker build --tag {IMAGE_NAME}:{IMAGE_VER} --build-arg PYTHON_VER={PYTHON_VER} -f Dockerfile ."
+    command = f"docker build --tag {IMAGE_NAME}:{IMAGE_VER} --build-arg PYTHON_VER={PYTHON_VER} -f docker/Dockerfile ."
 
     if not cache:
         command += " --no-cache"

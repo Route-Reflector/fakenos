@@ -10,7 +10,7 @@ import time
 from netmiko import ConnectHandler
 import pytest
 
-IN_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS", None)
+IN_GITHUB_ACTIONS: bool = os.getenv("GITHUB_ACTIONS") is not None
 
 fakerouter1 = {
     "device_type": "cisco_ios",
@@ -29,12 +29,11 @@ fakerouter2 = {
 }
 
 
-def check_docker_is_running() -> bool:
-    """Checks if Docker is running."""
+def _skip_docker_tests() -> bool:
+    """Return True if Docker tests should be skipped."""
     if IN_GITHUB_ACTIONS:
         return True
     try:
-        # Run `docker info` and check the return code
         subprocess.run(
             ["docker", "info"],
             check=True,
@@ -62,8 +61,7 @@ def setup():
         )
 
 
-@pytest.mark.skipif(IN_GITHUB_ACTIONS, reason="Skipping test in GitHub Actions.")
-@pytest.mark.skipif(check_docker_is_running(), reason="Docker is not running.")
+@pytest.mark.skipif(_skip_docker_tests(), reason="Docker is not available or in CI.")
 def test_container(setup):
     """
     Test that we can connect to the device and run a command
@@ -83,7 +81,7 @@ def test_container(setup):
     assert all("Traceback" not in i for i in outputs)
 
 
-@pytest.mark.skipif(check_docker_is_running(), reason="Docker is not running.")
+@pytest.mark.skipif(_skip_docker_tests(), reason="Docker is not available or in CI.")
 def test_container_multiple_connections(setup):
     """
     Similar to test_container, but it runs multiple
