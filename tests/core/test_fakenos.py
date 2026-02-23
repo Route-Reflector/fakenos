@@ -119,7 +119,7 @@ class TestFakeNOS:
         """
         Test that the inventory is in yaml format.
         """
-        with pytest.raises(TypeError, match=r"Inventory must be a dict or a path to a \.yaml file"):
+        with pytest.raises(ValueError, match=r"Inventory file must end with \.yaml or \.yml"):
             FakeNOS(inventory="tests/assets/inventory.txt")
 
     def test_is_inventory_in_yaml_unit(self):
@@ -196,7 +196,7 @@ class TestFakeNOS:
         """
         net = FakeNOS()
         net.inventory = "tests/assets/inventory.txt"
-        with pytest.raises(TypeError, match=r"Inventory must be a dict or a path to a \.yaml file"):
+        with pytest.raises(ValueError, match=r"Inventory file must end with \.yaml or \.yml"):
             net._load_inventory()
 
     @patch("fakenos.core.fakenos.FakeNOS._allocate_port")

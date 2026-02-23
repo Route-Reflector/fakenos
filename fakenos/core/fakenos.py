@@ -108,7 +108,7 @@ class FakeNOS:
 
     def _is_inventory_in_yaml(self) -> bool:
         """method that checks if the inventory is a yaml file."""
-        return isinstance(self.inventory, str) and self.inventory.endswith(".yaml")
+        return isinstance(self.inventory, str) and self.inventory.endswith((".yaml", ".yml"))
 
     def _load_inventory_yaml(self) -> None:
         """Helper method to load FakeNOS inventory if it is yaml."""
@@ -120,8 +120,10 @@ class FakeNOS:
         if self._is_inventory_in_yaml():
             self._load_inventory_yaml()
 
+        if isinstance(self.inventory, str):
+            raise ValueError(f"Inventory file must end with .yaml or .yml, got '{self.inventory}'")
         if not isinstance(self.inventory, dict):
-            raise TypeError(f"Inventory must be a dict or a path to a .yaml file, got {type(self.inventory).__name__}")
+            raise TypeError(f"Inventory must be a dict or a path to a YAML file, got {type(self.inventory).__name__}")
 
         self.inventory["default"] = {
             **default_inventory["default"],
