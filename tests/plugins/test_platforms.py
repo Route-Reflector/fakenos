@@ -8,7 +8,7 @@ from importlib import import_module
 import os
 import re
 import types
-from typing import Any, List
+from typing import Any
 
 from netmiko import ConnectHandler
 import pytest
@@ -19,7 +19,7 @@ from fakenos.core.nos import available_platforms
 from tests.utils import get_free_port, get_host_commands
 
 
-def get_py_nos_modules() -> List[str]:
+def get_py_nos_modules() -> list[str]:
     """
     It returns the list of all the python files
     that are in the nos directory.
@@ -31,7 +31,7 @@ def get_py_nos_modules() -> List[str]:
     ]
 
 
-def has_single_curly_brackets(text: Any, exceptions: List[str]) -> bool:
+def has_single_curly_brackets(text: Any, exceptions: list[str]) -> bool:
     """
     It returns False if the single curly
     brackets are in the text.
@@ -65,9 +65,9 @@ class TestPlatforms:
         It checks if the platform yaml file can be opened correctly using
         the yaml library.
         """
-        with open(f"fakenos/plugins/nos/platforms_yaml/{platform}.yaml", "r", encoding="utf-8") as file:
+        with open(f"fakenos/plugins/nos/platforms_yaml/{platform}.yaml", encoding="utf-8") as file:
             data: dict = yaml.safe_load(file)
-            for key in data.keys():
+            for key in data:
                 assert key in [
                     "name",
                     "initial_prompt",
@@ -85,14 +85,14 @@ class TestPlatforms:
         - help
         - prompt
         """
-        with open(f"fakenos/plugins/nos/platforms_yaml/{platform}.yaml", "r", encoding="utf-8") as file:
+        with open(f"fakenos/plugins/nos/platforms_yaml/{platform}.yaml", encoding="utf-8") as file:
             data = yaml.safe_load(file)
-            exceptions: List[str] = [data["initial_prompt"]]
+            exceptions: list[str] = [data["initial_prompt"]]
             if "enable_prompt" in data:
                 exceptions.append(data["enable_prompt"])
             if "config_prompt" in data:
                 exceptions.append(data["config_prompt"])
-            for _, values in data["commands"].items():
+            for values in data["commands"].values():
                 assert "output" in values
                 assert has_single_curly_brackets(values["output"], exceptions) is False
                 assert "help" in values
@@ -135,7 +135,7 @@ class TestPlatforms:
         for value in module.commands.values():
             if "alias" in value:
                 continue
-            exceptions: List[str] = [module.INITIAL_PROMPT]
+            exceptions: list[str] = [module.INITIAL_PROMPT]
             if hasattr(module, "ENABLE_PROMPT"):
                 exceptions.append(module.ENABLE_PROMPT)
             if hasattr(module, "CONFIG_PROMPT"):
@@ -175,9 +175,9 @@ class TestPlatforms:
             }
         }
         initial_commands, enable_commands, config_commands = [], [], []
-        initial_commands: List[str] = []
-        enable_commands: List[str] = []
-        config_commands: List[str] = []
+        initial_commands: list[str] = []
+        enable_commands: list[str] = []
+        config_commands: list[str] = []
         with FakeNOS(inventory=inventory) as net:
             host = next(iter(net.hosts.values()))
             initial_commands, enable_commands, config_commands = get_host_commands(host)

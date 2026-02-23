@@ -8,7 +8,7 @@ import logging
 import socket
 import threading
 import time
-from typing import Optional
+from typing import Any
 
 import paramiko
 import paramiko.channel
@@ -230,10 +230,10 @@ class ParamikoSshServer(TCPServerBase):
         port: int,
         username: str,
         password: str,
-        ssh_key_file: Optional[paramiko.rsakey.RSAKey] = None,
-        ssh_key_file_password: Optional[str] = None,
+        ssh_key_file: paramiko.rsakey.RSAKey | None = None,
+        ssh_key_file_password: str | None = None,
         ssh_banner: str = "FakeNOS Paramiko SSH Server",
-        shell_configuration: Optional[dict] = None,
+        shell_configuration: dict | None = None,
         address: str = "127.0.0.1",
         timeout: int = 1,
         watchdog_interval: float = 1,
@@ -243,7 +243,7 @@ class ParamikoSshServer(TCPServerBase):
         self.nos: Nos = nos
         self.nos_inventory_config: dict = nos_inventory_config
         self.shell: type = shell
-        self.shell_configuration: Optional[dict] = shell_configuration or {}
+        self.shell_configuration: dict | None = shell_configuration or {}
         self.ssh_banner: str = ssh_banner
         self.username: str = username
         self.password: str = password
@@ -264,7 +264,7 @@ class ParamikoSshServer(TCPServerBase):
         is_running: threading.Event,
         run_srv: threading.Event,
         session: paramiko.Transport,
-        shell: any,
+        shell: Any,
     ):
         """
         Method to monitor server liveness and recover where possible.

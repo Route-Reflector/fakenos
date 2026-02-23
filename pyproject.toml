@@ -41,8 +41,6 @@ dependencies = [
     "pyyaml<7.0",
     "pydantic<3.0",
     "jinja2>=3.1.6",
-
-
     "detect==2020.12.*",
 ]
 
@@ -57,32 +55,35 @@ fakenos = "fakenos.plugins.utils.cli:run_cli"
 [tool.ruff]
 line-length = 120
 target-version = "py313"
-extend-exclude = [
-    # Intentionally malformed files
-]
+exclude = ["venv", ".venv", "env", ".env"]
 
 [tool.ruff.lint]
 select = [
-    "DJ",  # flake8-django
-    "E",  # pycodestyle
-    "F",  # pyflakes
-    "I",  # isort
-    "PIE",  # flake8-pie
-    "PLE",  # pylint errors
-    "RUF",  # ruff itself
-    "S",  # flake8-bandit
-    "W",  # pycodestyle
+    "B",     # flake8-bugbear
+    "C4",    # flake8-comprehensions
+    "E",     # pycodestyle
+    "F",     # pyflakes
+    "I",     # isort
+    "PERF",  # Perflint
+    "RUF",   # ruff itself
+    "S",     # flake8-bandit
+    "SIM",   # flake8-simplify
+    "UP",    # pyupgrade
+    "W",     # pycodestyle
 ]
 ignore = [
-    "E501",  # pycodestyle: line-too-long
-    "PIE808",  # unnecessary-range-start
-    "RUF012",  # mutable-class-default - see https://github.com/astral-sh/ruff/issues/5243
+    "RUF001",  # ambiguous-unicode-character-string
+    "RUF002",  # ambiguous-unicode-character-docstring
+    "RUF003",  # ambiguous-unicode-character-comment
+    "RUF012",  # mutable-class-default
+    "SIM108",  # if-else-block-instead-of-if-exp
 ]
+dummy-variable-rgx = "^_.*"
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = [
-    "S101",  # Allow the use of random in tests
-    "S311",  # Allow use of assert in tests
+    "S101",  # Allow use of assert in tests
+    "S311",  # Allow use of random in tests
     "S105",  # Allow use of hardcoded password to "password"
     "S106",  # Allow use of hardcoded password in tests
     "S104",  # Allow binding to all interfaces in tests
@@ -93,14 +94,10 @@ ignore = [
     "S108",  # Probably insecure usage of temp file/directory - this is a script
     "S603",  # Use of subprocess without shell=True - this is a script
     "S607",  # Starting a process with a partial executable path - this is a script
-
 ]
 
 [tool.ruff.lint.isort]
-combine-as-imports = true
 force-sort-within-sections = true
-known-local-folder = ["example_app"]
-order-by-type = false
 
 [tool.bandit]
 exclude_dirs = ["./tests/", "./.venv", "./docs/", "./update_platforms.py"]

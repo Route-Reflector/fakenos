@@ -4,7 +4,6 @@ Test cases for the ssh_server_paramiko plugin.
 
 import io
 import threading
-from typing import Dict
 import unittest
 from unittest import mock
 from unittest.mock import MagicMock, Mock
@@ -12,12 +11,12 @@ from unittest.mock import MagicMock, Mock
 import paramiko
 
 from fakenos.plugins.servers.ssh_server_paramiko import (
-    channel_to_shell_tap,
     DEFAULT_SSH_KEY,
     ParamikoSshServer,
     ParamikoSshServerInterface,
-    shell_to_channel_tap,
     TapIO,
+    channel_to_shell_tap,
+    shell_to_channel_tap,
 )
 
 
@@ -451,7 +450,7 @@ class ParamikoSshServerTest(unittest.TestCase):
 
     def setUp(self):
         """Set up the ParamikoSshServer tests."""
-        self.arguments: Dict = {
+        self.arguments: dict = {
             "shell": Mock(),
             "nos": Mock(),
             "nos_inventory_config": {},

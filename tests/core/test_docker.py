@@ -6,7 +6,6 @@ Module tests for compatibility with Docker containers.
 import os
 import subprocess
 import time
-from typing import List
 
 from netmiko import ConnectHandler
 import pytest
@@ -39,8 +38,7 @@ def check_docker_is_running() -> bool:
         subprocess.run(
             ["docker", "info"],
             check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
         )
         return False
     except (subprocess.CalledProcessError, FileNotFoundError):
@@ -75,12 +73,10 @@ def test_container(setup):
     device running in a container and run the command "show clock".
     """
     times_to_collect: int = 100
-    outputs: List[str] = []
 
     device = ConnectHandler(**fakerouter1)
 
-    for _ in range(times_to_collect):
-        outputs.append(device.send_command("show clock"))
+    outputs = [device.send_command("show clock") for _ in range(times_to_collect)]
 
     assert len(outputs) == times_to_collect
     assert all(isinstance(i, str) for i in outputs)

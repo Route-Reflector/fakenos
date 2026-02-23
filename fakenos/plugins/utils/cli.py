@@ -3,10 +3,10 @@ FakeNOS Command Line Tool for running fake servers.
 """
 
 import argparse
+from importlib.metadata import version
 import logging
 import os
 import time
-from importlib.metadata import version
 
 from fakenos import FakeNOS
 

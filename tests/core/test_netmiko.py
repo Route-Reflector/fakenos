@@ -182,7 +182,6 @@ class TestNetmiko:
             "port": free_port,
             "device_type": "generic",
         }
-        with FakeNOS(inventory=inventory):
-            with ConnectHandler(**credentials) as conn:
-                output = conn.send_command("show clock")
-                assert re.match(r"^\w{3} \w{3} \d{2} \d{2}:\d{2}:\d{2} \d{4}$", output)
+        with FakeNOS(inventory=inventory), ConnectHandler(**credentials) as conn:
+            output = conn.send_command("show clock")
+            assert re.match(r"^\w{3} \w{3} \d{2} \d{2}:\d{2}:\d{2} \d{4}$", output)

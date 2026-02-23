@@ -5,13 +5,11 @@ It has certain atributes and methods which are
 generally common to all devices.
 """
 
-from abc import ABC
-
-from jinja2 import Environment, PackageLoader, select_autoescape, Template
+from jinja2 import Environment, PackageLoader, Template, select_autoescape
 import yaml
 
 
-class BaseDevice(ABC):
+class BaseDevice:
     """Interface for all devices."""
 
     def __init__(self, configuration_file: str) -> None:
@@ -32,13 +30,13 @@ class BaseDevice(ABC):
             raise ValueError("Configuration file must be a YAML file or a Jinja2 template.")
         if configuration_file.endswith(".j2"):
             data: str = ""
-            with open(configuration_file, "r", encoding="utf-8") as file:
+            with open(configuration_file, encoding="utf-8") as file:
                 data = file.read()
             data_j2 = Template(data, autoescape=False, trim_blocks=True, lstrip_blocks=True).render()
             data = yaml.safe_load(data_j2)
             return data
 
-        with open(configuration_file, "r", encoding="utf-8") as file:
+        with open(configuration_file, encoding="utf-8") as file:
             data = yaml.safe_load(file)
         return data
 

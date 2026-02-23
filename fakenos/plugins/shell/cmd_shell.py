@@ -7,7 +7,6 @@ import copy
 import logging
 import os
 import traceback
-from typing import List, Union
 
 from fakenos.core.nos import Nos
 from fakenos.plugins import nos
@@ -125,7 +124,7 @@ class CMDShell(Cmd):
             help_msg.append(f"{k}{padding}{v}")
         self.writeline(self.newline.join(help_msg))
 
-    def _check_prompt(self, prompt_: Union[str, List[str]]):
+    def _check_prompt(self, prompt_: str | list[str]):
         """
         Helper method to check if prompt_ matches current prompt
 
@@ -181,7 +180,7 @@ class CMDShell(Cmd):
         except ValueError:
             log.error("Output is still a callable")
             ret = "An error occurred"
-        except (Exception,) as e:
+        except Exception as e:
             log.error("An error occurred: %s", str(e))
             ret = traceback.format_exc()
             ret = ret.replace("\n", self.newline)

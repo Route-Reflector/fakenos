@@ -119,7 +119,7 @@ class TestFakeNOS:
         """
         Test that the inventory is in yaml format.
         """
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError, match=r"Inventory file must end with \.yaml or \.yml"):
             FakeNOS(inventory="tests/assets/inventory.txt")
 
     def test_is_inventory_in_yaml_unit(self):
@@ -196,7 +196,7 @@ class TestFakeNOS:
         """
         net = FakeNOS()
         net.inventory = "tests/assets/inventory.txt"
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError, match=r"Inventory file must end with \.yaml or \.yml"):
             net._load_inventory()
 
     @patch("fakenos.core.fakenos.FakeNOS._allocate_port")
@@ -356,7 +356,7 @@ class TestFakeNOS:
         it contains a configuration.
         """
         configurations: dict = {}
-        with open("tests/assets/test_module.yaml.j2", "r", encoding="utf-8") as file:
+        with open("tests/assets/test_module.yaml.j2", encoding="utf-8") as file:
             data = file.read()
             configurations = yaml.safe_load(data)
         inventory = {
@@ -378,7 +378,7 @@ class TestFakeNOS:
         it contains a configuration_file.
         """
         configurations: dict = {}
-        with open("tests/assets/test_module.yaml.j2", "r", encoding="utf-8") as file:
+        with open("tests/assets/test_module.yaml.j2", encoding="utf-8") as file:
             data = file.read()
             configurations = yaml.safe_load(data)
         with FakeNOS(inventory="tests/assets/inventory_configuration.yaml") as net:

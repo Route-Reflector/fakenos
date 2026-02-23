@@ -6,7 +6,6 @@ run locally or within the Docker container.
 """
 
 import os
-import sys
 import time
 import tomllib
 
@@ -15,9 +14,6 @@ from netmiko import ConnectHandler
 import yaml
 
 from fakenos import FakeNOS
-
-if sys.version_info < (3, 13):
-    sys.exit("Please make sure to run this with Python 3.13 or higher.")
 
 
 def strtobool(val: str) -> bool:
@@ -228,7 +224,7 @@ def gen_docs_platform_commands(ctx):
         print(f"Generating Platform: {platform}")
         if os.path.exists(f"docs/platforms/{platform}.md"):
             continue
-        with open(f"{platforms_folder}/{platform}.yaml", "r", encoding="utf-8") as file:
+        with open(f"{platforms_folder}/{platform}.yaml", encoding="utf-8") as file:
             data = yaml.safe_load(file)
         with open(f"docs/platforms/{platform}.md", "w", encoding="utf-8") as platforms_file:
             platforms_file.write(f"# {platform}\n\n")
