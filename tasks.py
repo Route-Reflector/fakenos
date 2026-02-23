@@ -95,13 +95,13 @@ def run_cmd(context, exec_cmd, local=INVOKE_LOCAL, port=None):
         )
         if port:
             result = context.run(
-                f"docker run -it -p {port} -v {PWD}:/local \
+                f"docker run -it -p {port} -v {PWD}:/app \
                     {IMAGE_NAME}:{IMAGE_VER} sh -c '{exec_cmd}'",
                 pty=True,
             )
         else:
             result = context.run(
-                f"docker run -it -v {PWD}:/local \
+                f"docker run -it -v {PWD}:/app \
                     {IMAGE_NAME}:{IMAGE_VER} sh -c '{exec_cmd}'",
                 pty=True,
             )
@@ -182,7 +182,7 @@ def bandit(context, local=INVOKE_LOCAL):
 @task
 def cli(context):
     """Enter the image to perform troubleshooting or dev work."""
-    dev = f"docker run -it -v {PWD}:/local {IMAGE_NAME}:{IMAGE_VER} /bin/bash"
+    dev = f"docker run -it -v {PWD}:/app {IMAGE_NAME}:{IMAGE_VER} /bin/bash"
     context.run(dev, pty=True)
 
 
