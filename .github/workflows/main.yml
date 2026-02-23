@@ -47,6 +47,7 @@ jobs:
         run: "uv run invoke bandit"
     needs:
       - ruff
+
   pytest:
     strategy:
       fail-fast: true
