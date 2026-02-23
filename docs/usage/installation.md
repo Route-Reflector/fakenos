@@ -20,11 +20,11 @@ FakeNOS uses [uv](https://docs.astral.sh/uv/) to manage dependencies and
 virtual environments. Follow steps below to install FakeNOS using uv:
 
 ```{ .bash .annotate }
-curl -LsSf https://astral.sh/uv/install.sh | sh # (1)
-git clone https://github.com/Route-Reflector/fakenos     # (2)
-cd fakenos                                       # (3)
-uv sync                                         # (4)
-uv run pre-commit install                       # (5)
+curl -LsSf https://astral.sh/uv/install.sh | sh      # (1)
+git clone https://github.com/Route-Reflector/fakenos  # (2)
+cd fakenos                                             # (3)
+uv sync                                                # (4)
+uv run pre-commit install                              # (5)
 ```
 
 1.  Install uv

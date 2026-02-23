@@ -104,8 +104,6 @@ You can also specify the inventory file to use:
 fakenos --inventory inventory.yaml
 ```
 
-
-
 [github-discussions-link]:     https://github.com/Route-Reflector/fakenos/discussions
 [github-discussions-badge]:    https://img.shields.io/static/v1?label=Discussions&message=Ask&color=blue&logo=github
 [ruff-badge]:                  https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json

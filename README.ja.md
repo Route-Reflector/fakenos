@@ -76,7 +76,6 @@ FakeNOS はシミュレータであり、ネットワークの制御プレーン
 - [cisshgo](https://github.com/tbotnz/cisshgo) - テスト用ネットワーク機器エミュレーション並行 SSH サーバー
 - [scrapli-replay](https://pypi.org/project/scrapli-replay/) - SSH プログラムのテストを容易にし、セミインタラクティブ SSH サーバーを作成するツール
 
-
 [github-discussions-link]:     https://github.com/Route-Reflector/fakenos/discussions
 [github-discussions-badge]:    https://img.shields.io/static/v1?label=Discussions&message=Ask&color=blue&logo=github
 [ruff-badge]:                  https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
