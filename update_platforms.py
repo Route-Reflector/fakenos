@@ -164,7 +164,7 @@ available_netmiko_platforms = download_and_extract_platforms(netmiko_platforms_u
 common_platforms = set(platforms) & set(available_netmiko_platforms)
 print(f"Available platforms in Netmiko & NTC-Templates: {common_platforms}")
 
-with open("docs/platforms.md", "w", encoding="utf-8") as file:
+with open("docs/platforms/index.md", "w", encoding="utf-8") as file:
     file.write("## Available Platforms\n\n")
     for platform in common_platforms:
         file.write(f"- {platform}\n")

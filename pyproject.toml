@@ -94,7 +94,6 @@ dummy-variable-rgx = "^_.*"
     "S108",  # Probably insecure usage of temp file/directory - this is a script
     "S603",  # Use of subprocess without shell=True - this is a script
     "S607",  # Starting a process with a partial executable path - this is a script
-
 ]
 
 [tool.ruff.lint.isort]
