@@ -19,7 +19,7 @@ The following list of platforms are supported by FakeNOS. All the platforms list
 - [avaya_ers](platforms/avaya_ers.md) ✅
 - [avaya_vsp](platforms/avaya_vsp.md) ✅
 - [broadcom_icos](platforms/broadcom_icos.md) ✅
-- [brocade_fastiron](platforms/brocade_fastiron.md) ❌[See issue](https://github.com/fakenos/fakenos/issues/5)
+- [brocade_fastiron](platforms/brocade_fastiron.md) ✅
 - [brocade_netiron](platforms/brocade_netiron.md) ✅
 - [checkpoint_gaia](platforms/checkpoint_gaia.md) ✅
 - [ciena_saos](platforms/ciena_saos.md) ✅

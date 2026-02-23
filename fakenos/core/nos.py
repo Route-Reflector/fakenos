@@ -21,7 +21,7 @@ available_platforms: list[str] = [
     "avaya_ers",
     "avaya_vsp",
     "broadcom_icos",
-    # "brocade_fastiron",
+    "brocade_fastiron",
     "brocade_netiron",
     "checkpoint_gaia",
     "ciena_saos",
