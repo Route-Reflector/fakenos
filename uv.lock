@@ -426,7 +426,7 @@ dev = [
 requires-dist = [
     { name = "detect", specifier = "==2020.12.*" },
     { name = "jinja2", specifier = ">=3.1.6" },
-    { name = "paramiko", specifier = "<=4.0" },
+    { name = "paramiko", specifier = ">=4.0" },
     { name = "pydantic", specifier = "<3.0" },
     { name = "pyyaml", specifier = "<7.0" },
 ]

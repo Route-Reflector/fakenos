@@ -21,6 +21,8 @@ This is a personal fork of [fakenos/fakenos](https://github.com/fakenos/fakenos)
 - Linter/Formatter: Ruff (migrated from Black/Pylint)
 - Python support: 3.13 / 3.14
 - CI: Modernized GitHub Actions workflow
+- NOS platforms: 5 additional platforms enabled (brocade_fastiron, ciena_saos, fortinet, juniper_screenos, ruckus_fastiron)
+- Paramiko: upgraded to 4.0 with DH Group Exchange server-mode workaround
 
 # Fake Network Operating Systems - FakeNOS
 

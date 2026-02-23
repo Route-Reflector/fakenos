@@ -19,6 +19,17 @@ from fakenos.core.servers import TCPServerBase
 
 log = logging.getLogger(__name__)
 
+# DH Group Exchange algorithms to disable when server moduli are unavailable.
+# Workaround for Paramiko server-mode bug where GEX algorithms are advertised
+# in KEXINIT despite the server being unable to handle them without moduli,
+# causing MessageOrderError when a client selects GEX.
+_DISABLED_GEX_ALGORITHMS = {
+    "kex": [
+        "diffie-hellman-group-exchange-sha256",
+        "diffie-hellman-group-exchange-sha1",
+    ]
+}
+
 DEFAULT_SSH_KEY = """-----BEGIN RSA PRIVATE KEY-----
 MIIEogIBAAKCAQEAnahBtR7uxtHmk5UwlFfpC/zxdxjUKPD8UpNOOtIJwpei7gaZ
 +Jgub5GFJtTG6CK+DIZiR4tE9JxMjTEFDCGA3U4C36shHB15Pl3bLx+UxdyFylpc
@@ -220,6 +231,8 @@ class ParamikoSshServer(TCPServerBase):
     as the SSH connection library.
     """
 
+    _moduli_loaded: bool | None = None
+
     # pylint: disable=too-many-instance-attributes
     # pylint: disable=too-many-arguments
     def __init__(
@@ -259,6 +272,11 @@ class ParamikoSshServer(TCPServerBase):
         else:
             self._ssh_server_key: paramiko.rsakey.RSAKey = paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY))
 
+        # Load SSH moduli once for DH Group Exchange support in server mode.
+        # Result is cached at the class level so subsequent instances skip the file I/O.
+        if ParamikoSshServer._moduli_loaded is None:
+            ParamikoSshServer._moduli_loaded = paramiko.Transport.load_server_moduli()
+
     def watchdog(
         self,
         is_running: threading.Event,
@@ -290,16 +308,8 @@ class ParamikoSshServer(TCPServerBase):
 
         # create the SSH transport object
         session = paramiko.Transport(client)
-        # Load moduli for DH Group Exchange support in server mode.
-        # If unavailable, disable GEX to avoid Paramiko's server-mode bug
-        # where GEX algorithms are advertised despite not being supported.
-        if not paramiko.Transport.load_server_moduli():
-            session.disabled_algorithms = {
-                "kex": [
-                    "diffie-hellman-group-exchange-sha256",
-                    "diffie-hellman-group-exchange-sha1",
-                ]
-            }
+        if not self._moduli_loaded:
+            session.disabled_algorithms = _DISABLED_GEX_ALGORITHMS
         session.add_server_key(self._ssh_server_key)
 
         # create the server

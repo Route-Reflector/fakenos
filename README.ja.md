@@ -21,6 +21,8 @@
 - リンター/フォーマッター: Ruff（Black/Pylint から移行）
 - Python サポート: 3.13 / 3.14
 - CI: GitHub Actions ワークフローの近代化
+- NOS プラットフォーム: 5 種を追加有効化（brocade_fastiron, ciena_saos, fortinet, juniper_screenos, ruckus_fastiron）
+- Paramiko: 4.0 にアップグレード（DH Group Exchange サーバーモードのワークアラウンド含む）
 
 # Fake Network Operating Systems - FakeNOS
 
