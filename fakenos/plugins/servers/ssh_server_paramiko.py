@@ -290,6 +290,15 @@ class ParamikoSshServer(TCPServerBase):
 
         # create the SSH transport object
         session = paramiko.Transport(client)
+        # Disable DH Group Exchange algorithms in server mode to avoid
+        # Paramiko MessageOrderError when clients (e.g. FortinetSSH) negotiate
+        # DH GEX, which is not properly handled in Paramiko's server mode.
+        session.disabled_algorithms = {
+            "kex": [
+                "diffie-hellman-group-exchange-sha256",
+                "diffie-hellman-group-exchange-sha1",
+            ]
+        }
         session.add_server_key(self._ssh_server_key)
 
         # create the server

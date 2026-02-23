@@ -35,7 +35,7 @@ The following list of platforms are supported by FakeNOS. All the platforms list
 - [eltex](platforms/eltex.md) ✅
 - [ericsson_ipos](platforms/ericsson_ipos.md) ✅
 - [extreme_exos](platforms/extreme_exos.md) ✅
-- [fortinet](platforms/fortinet.md) ❌[See issue](https://github.com/fakenos/fakenos/issues/4)
+- [fortinet](platforms/fortinet.md) ✅
 - [hp_comware](platforms/hp_comware.md) ✅
 - [hp_procurve](platforms/hp_procurve.md) ✅
 - [huawei_smartax](platforms/huawei_smartax.md) ✅

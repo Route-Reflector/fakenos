@@ -37,7 +37,7 @@ available_platforms: list[str] = [
     "eltex",
     "ericsson_ipos",
     "extreme_exos",
-    # "fortinet",
+    "fortinet",
     "hp_comware",
     "hp_procurve",
     "huawei_smartax",

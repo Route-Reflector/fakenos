@@ -1,13 +1,34 @@
 name: fortinet
-initial_prompt: "{base_prompt}>"
-enable_prompt: "{base_prompt}#"
-config_prompt: "{base_prompt}(config)#"
+initial_prompt: "{base_prompt} # "
 commands:
-  enable:
-    output: 'null'
-    new_prompt: "{base_prompt}#"
-    help: enter enable mode
-    prompt: "{base_prompt}>"
+  "get system status | grep Version":
+    output: "Version: FortiGate-1500D v6.0.7,build0302,191112 (GA)"
+    help: get system version (filtered)
+    prompt: "{base_prompt} # "
+  "get system status | grep Virtual":
+    output: "Virtual domain configuration: disable"
+    help: get virtual domain status (filtered)
+    prompt: "{base_prompt} # "
+  get system console:
+    output: "output          : standard"
+    help: get system console settings
+    prompt: "{base_prompt} # "
+  show full-configuration system console:
+    output: "config system console\n    set output standard\nend"
+    help: show console configuration
+    prompt: "{base_prompt} # "
+  config system console:
+    output: null
+    help: enter system console config
+    prompt: "{base_prompt} # "
+  set output standard:
+    output: null
+    help: set output to standard mode
+    prompt: "{base_prompt} # "
+  end:
+    output: null
+    help: exit current mode
+    prompt: "{base_prompt} # "
   get system interface physical:
     output: "== [onboard]\n        ==[dmz1]\n                mode: static\n      \
       \          ip: 0.0.0.0 0.0.0.0\n                ipv6: ::/0\n               \
@@ -63,9 +84,7 @@ commands:
       0.0.0.0\n                ipv6: ::/0\n                status: down\n        \
       \        speed: n/a\n"
     help: execute the command "get system interface physical"
-    prompt:
-    - "{base_prompt}>"
-    - "{base_prompt}#"
+    prompt: "{base_prompt} # "
   get system status:
     output: "Version: FortiGate-1500D v6.0.7,build0302,191112 (GA)\nVirus-DB: 16.00560(2012-10-19
       08:31)\nExtended DB: 1.00000(2018-04-09 18:07)\nExtreme DB: 1.00000(2018-04-09
@@ -81,9 +100,7 @@ commands:
       05:24:41\nBranch point: 0302\nRelease Version Information: GA\nFortiOS x86-64:
       Yes\nSystem time: Fri Jan 10 23:10:02 2020\n"
     help: execute the command "get system status"
-    prompt:
-    - "{base_prompt}>"
-    - "{base_prompt}#"
+    prompt: "{base_prompt} # "
   get system ha status:
     output: "HA Health Status: OK\nModel: FortiGate-600E\nMode: HA A-P\nGroup: 5\n
       Debug: 0\nCluster Uptime: 36 days 22:20:40\nCluster state change time: 2020-12-02
@@ -110,9 +127,7 @@ commands:
       vcluster 1: work 169.254.0.2\nMaster: FG6H0Exxxxxxxxxx, HA operating index =
       0\nSlave : FG6H0Eyyyyyyyyyy, HA operating index = 1\n"
     help: execute the command "get system ha status"
-    prompt:
-    - "{base_prompt}>"
-    - "{base_prompt}#"
+    prompt: "{base_prompt} # "
   get router info bgp summary:
     output: "BGP router identifier 85.31.8.8, local AS number 65302\nBGP table version
       is 13\n1 BGP AS-PATH entries\n0 BGP community entries\n\nNeighbor        V \
@@ -123,9 +138,7 @@ commands:
       \  4       4224       0       0        0    0    0    never Idle       \n\n
       Total number of neighbors 4\n\n"
     help: execute the command "get router info bgp summary"
-    prompt:
-    - "{base_prompt}>"
-    - "{base_prompt}#"
+    prompt: "{base_prompt} # "
   get system interface:
     output: "== [ ha ]\nname: ha   mode: static    management-ip: 0.0.0.0 0.0.0.0\
       \   ip: 0.0.0.0 0.0.0.0   status: up    netbios-forward: disable    type: physical\
@@ -195,15 +208,11 @@ commands:
       \  sflow-sampler: disable    src-check: enable    explicit-web-proxy: disable\
       \    explicit-ftp-proxy: disable    proxy-captive-portal: disable    wccp: disable\n"
     help: execute the command "get system interface"
-    prompt:
-    - "{base_prompt}>"
-    - "{base_prompt}#"
+    prompt: "{base_prompt} # "
   get system arp:
     output: "Address           Age(min)   Hardware Addr      Interface\n192.168.1.4\
       \       0          b0:a8:6e:01:61:81 lan\n192.168.1.110     0          3c:9b:d6:66:52:ab
       lan\n192.168.1.111     0          18:64:72:c9:02:d2 lan\n192.168.1.114     4\
       \          40:cb:c0:ce:81:85 lan\n"
     help: execute the command "get system arp"
-    prompt:
-    - "{base_prompt}>"
-    - "{base_prompt}#"
+    prompt: "{base_prompt} # "
