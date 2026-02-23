@@ -19,41 +19,6 @@ from fakenos import FakeNOS
 from fakenos.core.nos import available_platforms
 from tests.utils import generate_random_string, get_free_port, get_platforms_from_md
 
-fake_network = {
-    "default": {
-        "username": "user",
-        "password": "user",
-        "port": [5000, 6000],
-        "server": {
-            "plugin": "ParamikoSshServer",
-            "configuration": {
-                "ssh_key_file": "tests/assets/ssh_host_rsa_key",
-                "timeout": 1,
-                "address": "127.0.0.1",
-            },
-        },
-        "shell": {"plugin": "CMDShell", "configuration": {}},
-        "nos": {"plugin": "cisco_ios", "configuration": {}},
-    },
-    "hosts": {
-        "R1": {
-            "port": 5001,
-            "username": "fakenos",
-            "password": "fakenos",
-            "server": {
-                "plugin": "ParamikoSshServer",
-                "configuration": {"address": "0.0.0.0"},
-            },
-            "shell": {
-                "plugin": "CMDShell",
-                "configuration": {"intro": "Custom SSH Shell"},
-            },
-        },
-        "R2": {},
-        "core-router": {"replicas": 2, "port": [5000, 5001]},
-    },
-}
-
 
 class TestNetmiko:
     """
@@ -70,7 +35,7 @@ class TestNetmiko:
         ready to used with Netmiko. We only look if any error
         has raised.
         """
-        print("HOLAAA")
+        net = None
         try:
             free_port = get_free_port()
             inventory = {
@@ -98,15 +63,16 @@ class TestNetmiko:
             with ConnectHandler(**device_credentials):
                 pass
             print(f"Success device_type: {device_type}")
-            net.stop()
-
-            n_threads: int = 2 if detect.windows else 1
-            assert threading.active_count() == n_threads
         finally:
+            if net is not None:
+                net.stop()
             all_threads = threading.enumerate()
             for thread in all_threads:
                 if thread is not threading.main_thread() and "pytest_timeout" not in thread.name:
                     thread.join()
+
+        n_threads: int = 2 if detect.windows else 1
+        assert threading.active_count() == n_threads
 
     @pytest.mark.timeout(20 * 10)
     def test_fakenos_start_stop_hosts(self):
@@ -161,6 +127,7 @@ class TestNetmiko:
 
         net.stop()
 
+    @pytest.mark.timeout(30)
     def test_testing_module(self):
         free_port: int = get_free_port()
         inventory: dict = {
