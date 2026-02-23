@@ -6,8 +6,8 @@ site_author = "Denis Mulyalin, Enric Perpinyà Pitarch"
 copyright = "&copy; 2025 FakeNOS Authors"
 docs_dir = "docs"
 dev_addr = "localhost:8000"
-repo_url = "https://github.com/fakenos/fakenos"
-repo_name = "fakenos/fakenos"
+repo_url = "https://github.com/Route-Reflector/fakenos"
+repo_name = "Route-Reflector/fakenos"
 edit_uri = "docs"
 nav = [
     {"Overview" = [
@@ -117,7 +117,7 @@ repo = "fontawesome/brands/github"
 
 [[project.extra.social]]
 icon = "fontawesome/brands/github"
-link = "https://github.com/fakenos/fakenos/"
+link = "https://github.com/Route-Reflector/fakenos/"
 
 
 # Palette toggle for automatic mode

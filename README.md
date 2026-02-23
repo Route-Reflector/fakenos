@@ -60,7 +60,7 @@ FakeNOS can:
 - Provide high-level API to create custom NOS plugins
 - Run in docker container to simplify integration with your infrastructure
 - Make use of FakeNOS CLI tool for quick run and prototype simulations
-- Works on Windows, MAC and Linux under Python 3.13 and 3.14
+- Works on Windows, Mac and Linux under Python 3.13 and 3.14
 
 ## How?
 
