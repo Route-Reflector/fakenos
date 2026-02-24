@@ -82,7 +82,7 @@ class ParamikoSshServerInterface(paramiko.ServerInterface):
         """
         This will allow the SSH server to provide a channel for the client
         to communicate over. By default, this will return
-        OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED, so  we have to override it
+        OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED, so we have to override it
         to return OPEN_SUCCEEDED when the kind of channel
         requested is "session".
         """

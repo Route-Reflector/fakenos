@@ -238,7 +238,7 @@ class Nos:
         elif filename.endswith(".py"):
             self._from_module(filename)
 
-    def is_file_ending_correct(self, filename: str) -> None:
+    def is_file_ending_correct(self, filename: str) -> bool:
         """
         Method to check if file extension is correct and load NOS data.
         Correct types are: .yaml, .yml and .py
