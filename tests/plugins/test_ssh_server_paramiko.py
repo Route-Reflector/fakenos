@@ -22,26 +22,26 @@ from fakenos.plugins.servers.ssh_server_paramiko import (
 
 class ParamikoSshServerInterfaceTest(unittest.TestCase):
     """
-    Test cases for the ParamikoSSHServerInterface class.
+    Test cases for the ParamikoSshServerInterface class.
     """
 
     def test_create_server_with_banner(self):
-        """Create a ParamikoSSHServerInterface object with a banner."""
+        """Create a ParamikoSshServerInterface object with a banner."""
         paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface("banner")
         self.assertEqual(paramiko_server.ssh_banner, "banner")
 
     def test_create_server_with_username(self):
-        """Create a ParamikoSSHServerInterface object with a username."""
+        """Create a ParamikoSshServerInterface object with a username."""
         paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(username="username")
         self.assertEqual(paramiko_server.username, "username")
 
     def test_create_server_with_password(self):
-        """Create a ParamikoSSHServerInterface object with a password."""
+        """Create a ParamikoSshServerInterface object with a password."""
         paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(password="password")
         self.assertEqual(paramiko_server.password, "password")
 
     def test_create_server_with_username_and_password(self):
-        """Create a ParamikoSSHServerInterface object with a username and password."""
+        """Create a ParamikoSshServerInterface object with a username and password."""
         paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
             username="username", password="password"
         )
@@ -49,7 +49,7 @@ class ParamikoSshServerInterfaceTest(unittest.TestCase):
         self.assertEqual(paramiko_server.password, "password")
 
     def test_create_server_with_banner_username_and_password(self):
-        """Create a ParamikoSSHServerInterface object with a banner, username, and password."""
+        """Create a ParamikoSshServerInterface object with a banner, username, and password."""
         paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface("banner", "username", "password")
         self.assertEqual(paramiko_server.ssh_banner, "banner")
         self.assertEqual(paramiko_server.username, "username")

@@ -212,8 +212,9 @@ class Nos:
         self.name = getattr(module, "NAME", self.name)
         self.commands.update(getattr(module, "commands", self.commands))
         self.initial_prompt = getattr(module, "INITIAL_PROMPT", self.initial_prompt)
-        self.enable_prompt = getattr(module, "ENABLE_PROMPT", None)
-        self.config_prompt = getattr(module, "CONFIG_PROMPT", None)
+        self.auth = getattr(module, "AUTH", self.auth)
+        self.enable_prompt = getattr(module, "ENABLE_PROMPT", self.enable_prompt)
+        self.config_prompt = getattr(module, "CONFIG_PROMPT", self.config_prompt)
         classname = getattr(module, "DEVICE_NAME", None)
         configuration_file = self.configuration_file
         if not self.configuration_file:
