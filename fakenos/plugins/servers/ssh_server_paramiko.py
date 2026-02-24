@@ -102,8 +102,23 @@ class ParamikoSshServerInterface(paramiko.ServerInterface):
         """
         return True
 
+    def get_allowed_auths(self, username):
+        return "password,keyboard-interactive"
+
     def check_auth_password(self, username, password):
         if (username == self.username) and (password == self.password):
+            return paramiko.AUTH_SUCCESSFUL
+        return paramiko.AUTH_FAILED
+
+    def check_auth_interactive(self, username, submethods):
+        if username == self.username:
+            query = paramiko.InteractiveQuery()
+            query.add_prompt("Password: ", echo=False)
+            return query
+        return paramiko.AUTH_FAILED
+
+    def check_auth_interactive_response(self, responses):
+        if len(responses) == 1 and responses[0] == self.password:
             return paramiko.AUTH_SUCCESSFUL
         return paramiko.AUTH_FAILED
 
