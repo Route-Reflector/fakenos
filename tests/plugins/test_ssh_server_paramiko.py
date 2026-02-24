@@ -131,6 +131,69 @@ class ParamikoSSHServerInterfaceTest(unittest.TestCase):
             paramiko.AUTH_SUCCESSFUL,
         )
 
+    def test_get_allowed_auths(self):
+        """Check that allowed auth methods include password and keyboard-interactive."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(username="user")
+        self.assertEqual(paramiko_server.get_allowed_auths("user"), "password,keyboard-interactive")
+
+    def test_check_auth_interactive_valid_username(self):
+        """Check that keyboard-interactive auth returns a query for a valid username."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
+            username="username", password="password"
+        )
+        result = paramiko_server.check_auth_interactive("username", "")
+        self.assertIsInstance(result, paramiko.InteractiveQuery)
+
+    def test_check_auth_interactive_invalid_username(self):
+        """Check that keyboard-interactive auth fails for an invalid username."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
+            username="username", password="password"
+        )
+        self.assertEqual(
+            paramiko_server.check_auth_interactive("wrong", ""),
+            paramiko.AUTH_FAILED,
+        )
+
+    def test_check_auth_interactive_response_correct_password(self):
+        """Check that keyboard-interactive response succeeds with the correct password."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
+            username="username", password="password"
+        )
+        self.assertEqual(
+            paramiko_server.check_auth_interactive_response(["password"]),
+            paramiko.AUTH_SUCCESSFUL,
+        )
+
+    def test_check_auth_interactive_response_incorrect_password(self):
+        """Check that keyboard-interactive response fails with an incorrect password."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
+            username="username", password="password"
+        )
+        self.assertEqual(
+            paramiko_server.check_auth_interactive_response(["wrong"]),
+            paramiko.AUTH_FAILED,
+        )
+
+    def test_check_auth_interactive_response_empty(self):
+        """Check that keyboard-interactive response fails with no responses."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
+            username="username", password="password"
+        )
+        self.assertEqual(
+            paramiko_server.check_auth_interactive_response([]),
+            paramiko.AUTH_FAILED,
+        )
+
+    def test_check_auth_interactive_response_multiple(self):
+        """Check that keyboard-interactive response fails with multiple responses."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
+            username="username", password="password"
+        )
+        self.assertEqual(
+            paramiko_server.check_auth_interactive_response(["password", "extra"]),
+            paramiko.AUTH_FAILED,
+        )
+
     def test_get_banner(self):
         """Check that the banner is returned."""
         paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface("banner")
