@@ -45,7 +45,7 @@ The following list of platforms are supported by FakeNOS. All the platforms list
 - [juniper_screenos](platforms/juniper_screenos.md) ✅
 - [linux](platforms/linux.md) ✅
 - [mikrotik_routeros](platforms/mikrotik_routeros.md) ❌[See issue](https://github.com/fakenos/fakenos/issues/9)
-- [paloalto_panos](platforms/paloalto_panos.md) ❌[See issue](https://github.com/fakenos/fakenos/issues/7)
+- [paloalto_panos](platforms/paloalto_panos.md) ✅
 - [ruckus_fastiron](platforms/ruckus_fastiron.md) ✅
 - [ubiquiti_edgerouter](platforms/ubiquiti_edgerouter.md) ✅
 - [ubiquiti_edgeswitch](platforms/ubiquiti_edgeswitch.md) ✅

@@ -67,9 +67,9 @@ class ParamikoSshServerInterface(paramiko.ServerInterface):
 
     def __init__(
         self,
-        ssh_banner="FakeNOS Paramiko SSH Server",
-        username=None,
-        password=None,
+        ssh_banner: str = "FakeNOS Paramiko SSH Server",
+        username: str | None = None,
+        password: str | None = None,
     ):
         self.ssh_banner = ssh_banner
         self.username = username
@@ -87,7 +87,6 @@ class ParamikoSshServerInterface(paramiko.ServerInterface):
             return paramiko.OPEN_SUCCEEDED
         return paramiko.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
 
-    # pylint: disable=too-many-arguments
     def check_channel_pty_request(self, channel, term, width, height, pixelwidth, pixelheight, modes):
         """
         AFAIK, pty (pseudo-tty (TeleTYpewriter))
@@ -102,8 +101,27 @@ class ParamikoSshServerInterface(paramiko.ServerInterface):
         """
         return True
 
+    def get_allowed_auths(self, username):
+        """Return the authentication methods supported by this server."""
+        return "password,keyboard-interactive"
+
     def check_auth_password(self, username, password):
+        """Validate username/password for standard password authentication."""
         if (username == self.username) and (password == self.password):
+            return paramiko.AUTH_SUCCESSFUL
+        return paramiko.AUTH_FAILED
+
+    def check_auth_interactive(self, username, submethods):
+        """Begin keyboard-interactive authentication by sending a password prompt."""
+        if username == self.username:
+            query = paramiko.InteractiveQuery()
+            query.add_prompt("Password: ", echo=False)
+            return query
+        return paramiko.AUTH_FAILED
+
+    def check_auth_interactive_response(self, responses):
+        """Validate the password response from keyboard-interactive authentication."""
+        if len(responses) == 1 and responses[0] == self.password:
             return paramiko.AUTH_SUCCESSFUL
         return paramiko.AUTH_FAILED
 
@@ -233,8 +251,6 @@ class ParamikoSshServer(TCPServerBase):
 
     _moduli_loaded: bool | None = None
 
-    # pylint: disable=too-many-instance-attributes
-    # pylint: disable=too-many-arguments
     def __init__(
         self,
         shell: type,
@@ -263,7 +279,7 @@ class ParamikoSshServer(TCPServerBase):
         self.port: int = port
         self.address: str = address
         self.timeout: int = timeout
-        self.watchdog_interval: int = watchdog_interval
+        self.watchdog_interval: float = watchdog_interval
 
         if ssh_key_file:
             self._ssh_server_key: paramiko.rsakey.RSAKey = paramiko.RSAKey.from_private_key_file(
@@ -289,10 +305,7 @@ class ParamikoSshServer(TCPServerBase):
         """
         while run_srv.is_set():
             if not session.is_alive():
-                log.warning(
-                    "ParamikoSshServer.watchdog - \
-                        session not alive, stopping shell"
-                )
+                log.warning("ParamikoSshServer.watchdog - session not alive, stopping shell")
                 shell.stop()
                 break
 

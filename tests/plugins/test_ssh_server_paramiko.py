@@ -131,6 +131,69 @@ class ParamikoSSHServerInterfaceTest(unittest.TestCase):
             paramiko.AUTH_SUCCESSFUL,
         )
 
+    def test_get_allowed_auths(self):
+        """Check that allowed auth methods include password and keyboard-interactive."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(username="user")
+        self.assertEqual(paramiko_server.get_allowed_auths("user"), "password,keyboard-interactive")
+
+    def test_check_auth_interactive_valid_username(self):
+        """Check that keyboard-interactive auth returns a query for a valid username."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
+            username="username", password="password"
+        )
+        result = paramiko_server.check_auth_interactive("username", "")
+        self.assertIsInstance(result, paramiko.InteractiveQuery)
+
+    def test_check_auth_interactive_invalid_username(self):
+        """Check that keyboard-interactive auth fails for an invalid username."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
+            username="username", password="password"
+        )
+        self.assertEqual(
+            paramiko_server.check_auth_interactive("wrong", ""),
+            paramiko.AUTH_FAILED,
+        )
+
+    def test_check_auth_interactive_response_correct_password(self):
+        """Check that keyboard-interactive response succeeds with the correct password."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
+            username="username", password="password"
+        )
+        self.assertEqual(
+            paramiko_server.check_auth_interactive_response(["password"]),
+            paramiko.AUTH_SUCCESSFUL,
+        )
+
+    def test_check_auth_interactive_response_incorrect_password(self):
+        """Check that keyboard-interactive response fails with an incorrect password."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
+            username="username", password="password"
+        )
+        self.assertEqual(
+            paramiko_server.check_auth_interactive_response(["wrong"]),
+            paramiko.AUTH_FAILED,
+        )
+
+    def test_check_auth_interactive_response_empty(self):
+        """Check that keyboard-interactive response fails with no responses."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
+            username="username", password="password"
+        )
+        self.assertEqual(
+            paramiko_server.check_auth_interactive_response([]),
+            paramiko.AUTH_FAILED,
+        )
+
+    def test_check_auth_interactive_response_multiple(self):
+        """Check that keyboard-interactive response fails with multiple responses."""
+        paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface(
+            username="username", password="password"
+        )
+        self.assertEqual(
+            paramiko_server.check_auth_interactive_response(["password", "extra"]),
+            paramiko.AUTH_FAILED,
+        )
+
     def test_get_banner(self):
         """Check that the banner is returned."""
         paramiko_server: ParamikoSshServerInterface = ParamikoSshServerInterface("banner")
@@ -476,7 +539,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -502,7 +564,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(filename="tests/assets/ssh_host_rsa_key"),
@@ -529,7 +590,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(
@@ -558,7 +618,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -584,7 +643,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -610,7 +668,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.2")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -636,7 +693,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 2)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -662,7 +718,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 2)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -692,7 +747,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.2")
         self.assertEqual(paramiko_server.timeout, 2)
         self.assertEqual(paramiko_server.watchdog_interval, 2)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -745,7 +799,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         paramiko_server.watchdog(mock_is_running, mock_run_srv, mock_session, mock_shell)
         mock_shell.stop.assert_called_once()
 
-    # pylint: disable=unused-argument
     @mock.patch("fakenos.plugins.servers.ssh_server_paramiko.channel_to_shell_tap")
     @mock.patch("fakenos.plugins.servers.ssh_server_paramiko.shell_to_channel_tap")
     @mock.patch("paramiko.Transport")

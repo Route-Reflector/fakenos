@@ -1,16 +1,22 @@
 name: paloalto_panos
 initial_prompt: "{base_prompt}>"
-enable_prompt: "{base_prompt}#"
-config_prompt: "{base_prompt}(config)#"
+config_prompt: "{base_prompt}#"
 commands:
-  enable:
-    output: null
-    new_prompt: "{base_prompt}#"
-    help: enter enable mode
-    prompt: "{base_prompt}>"
   set cli scripting-mode on:
+    output: "{base_prompt}> set cli scripting-mode on"
+    help: enable scripting mode
+    prompt:
+    - "{base_prompt}>"
+    - "{base_prompt}#"
+  set cli terminal width 500:
     output: null
-    help: set the terminal width to full
+    help: set terminal width to 500 columns
+    prompt:
+    - "{base_prompt}>"
+    - "{base_prompt}#"
+  set cli pager off:
+    output: null
+    help: disable paging
     prompt:
     - "{base_prompt}>"
     - "{base_prompt}#"
