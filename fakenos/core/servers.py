@@ -1,10 +1,8 @@
 """
-This module handles is the base model for any
-server implemented as a plugin. To see an example
+Base model for any server implemented as a plugin. To see an example
 look for fakenos/plugins/servers/ssh_server_paramiko.py
 """
 
-# pylint: disable=no-name-in-module
 from abc import ABC, abstractmethod
 import logging
 import socket
@@ -14,10 +12,9 @@ import threading
 log = logging.getLogger(__name__)
 
 
-# pylint: disable=too-many-instance-attributes
 class TCPServerBase(ABC):
     """
-    This module provides the base class for a TCP Server.
+    Base class for a TCP Server.
     It provides the methods to start and stop the server.
 
     Note: We are looking to switch to socketserver as it is
@@ -50,6 +47,7 @@ class TCPServerBase(ABC):
         self._is_running.set()
 
         self._bind_sockets()
+        self._socket.listen()
 
         self._listen_thread = threading.Thread(target=self._listen)
         self._listen_thread.start()
@@ -92,7 +90,6 @@ class TCPServerBase(ABC):
         """
         while self._is_running.is_set():
             try:
-                self._socket.listen()
                 client, _ = self._socket.accept()
                 connection_thread = threading.Thread(
                     target=self.connection_function,
@@ -109,7 +106,7 @@ class TCPServerBase(ABC):
     @abstractmethod
     def connection_function(self, client, is_running):
         """
-        This abstract method it is called when a new connection
-        is made. The implementation should handle all the
-        latter connection.
+        This abstract method is called when a new connection
+        is made. The implementation should handle the
+        connection afterwards.
         """

@@ -1,9 +1,8 @@
 """
-Test moudle for fakenos.core.servers.
+Test module for fakenos.core.servers.
 The file can be found under fakenos/core/servers.py
 """
 
-# pylint: disable=protected-access, attribute-defined-outside-init
 import socket
 import sys
 import unittest
@@ -64,11 +63,14 @@ class ServersTest(unittest.TestCase):
         if no arguments are given.
         """
         mock_thread_event().is_set.return_value = False
+        mock_socket = MagicMock()
 
         servers = FakeServer()
+        servers._socket = mock_socket
         servers.start()
 
         mock_bind_sockets.assert_called_once()
+        mock_socket.listen.assert_called_once()
         mock_thread_event().set.assert_called_once()
         mock_thread.assert_called_once_with(target=servers._listen)
         mock_thread().start.assert_called_once()
@@ -157,7 +159,6 @@ class ServersTest(unittest.TestCase):
         It passes if the functions exits correctly when
         the is_running flag is still set to true.
         """
-        self._connection_thread = [MagicMock() for _ in range(3)]
         mock_thread_event().is_set.return_value = True
         servers = FakeServer()
         servers._listen_thread = mock_thread()
@@ -190,7 +191,6 @@ class ServersTest(unittest.TestCase):
         It passes if the connection threads are joined
         after the program is interrupted.
         """
-        self._connection_thread = [MagicMock() for _ in range(3)]
         mock_thread_event().is_set.return_value = True
         servers = FakeServer()
         servers._listen_thread = mock_thread()
@@ -215,7 +215,6 @@ class ServersTest(unittest.TestCase):
         servers._socket.accept.return_value = (MagicMock(), MagicMock())
 
         servers._listen()
-        mock_socket().listen.assert_called_once()
         mock_socket().accept.assert_called_once()
         mock_thread.assert_called_once_with(
             target=servers.connection_function,
@@ -239,7 +238,6 @@ class ServersTest(unittest.TestCase):
         servers._socket.accept.side_effect = socket.timeout
 
         servers._listen()
-        mock_socket().listen.assert_called_once()
         mock_socket().accept.assert_called_once()
         mock_thread.assert_not_called()
         self.assertEqual(len(servers._connection_threads), 0)
@@ -258,7 +256,6 @@ class ServersTest(unittest.TestCase):
         servers._socket = mock_socket()
         servers._socket.accept.return_value = (MagicMock(), MagicMock())
         servers._listen()
-        self.assertEqual(mock_socket().listen.call_count, 100)
         self.assertEqual(mock_socket().accept.call_count, 100)
         self.assertEqual(mock_thread.call_count, 100)
         self.assertEqual(mock_thread().start.call_count, 100)
