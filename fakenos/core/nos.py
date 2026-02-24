@@ -46,7 +46,7 @@ available_platforms: list[str] = [
     "juniper_junos",
     "juniper_screenos",
     "linux",
-    # "mikrotik_routeros",
+    "mikrotik_routeros",
     "paloalto_panos",
     "ruckus_fastiron",
     "ubiquiti_edgerouter",
@@ -238,7 +238,7 @@ class Nos:
         elif filename.endswith(".py"):
             self._from_module(filename)
 
-    def is_file_ending_correct(self, filename: str) -> None:
+    def is_file_ending_correct(self, filename: str) -> bool:
         """
         Method to check if file extension is correct and load NOS data.
         Correct types are: .yaml, .yml and .py

@@ -82,7 +82,7 @@ class ParamikoSshServerInterface(paramiko.ServerInterface):
         """
         This will allow the SSH server to provide a channel for the client
         to communicate over. By default, this will return
-        OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED, so  we have to override it
+        OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED, so we have to override it
         to return OPEN_SUCCEEDED when the kind of channel
         requested is "session".
         """
@@ -118,16 +118,29 @@ class ParamikoSshServerInterface(paramiko.ServerInterface):
             return paramiko.AUTH_SUCCESSFUL
         return paramiko.AUTH_FAILED
 
+    def _match_username(self, username: str) -> bool:
+        """Check whether *username* matches the configured username.
+
+        Tries an exact match first.  If that fails, strips a MikroTik-style
+        ``+`` suffix (e.g. ``admin+ct511w4098h``) and retries so that
+        usernames containing ``+`` as a legitimate character are never
+        falsely truncated.
+        """
+        if username == self.username:
+            return True
+        base, sep, _ = username.partition("+")
+        return bool(sep) and base == self.username
+
     def check_auth_password(self, username, password):
         """Validate username/password for standard password authentication."""
-        if (username == self.username) and (password == self.password):
+        if self._match_username(username) and (password == self.password):
             self.auth_method_used = "password"
             return paramiko.AUTH_SUCCESSFUL
         return paramiko.AUTH_FAILED
 
     def check_auth_interactive(self, username, submethods):
         """Begin keyboard-interactive authentication by sending a password prompt."""
-        if username == self.username:
+        if self._match_username(username):
             query = paramiko.InteractiveQuery()
             query.add_prompt("Password: ", echo=False)
             return query
