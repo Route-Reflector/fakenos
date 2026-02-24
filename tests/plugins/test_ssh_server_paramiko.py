@@ -546,7 +546,7 @@ class ParamikoSshServerTest(unittest.TestCase):
 
     def test_init_with_ssh_key_file(self):
         """
-        Check th<at the ParamikoSshServer object is initialized correctly with
+        Check that the ParamikoSshServer object is initialized correctly with
         the ssh_key_file parameter.
         """
         paramiko_server: ParamikoSshServer = ParamikoSshServer(

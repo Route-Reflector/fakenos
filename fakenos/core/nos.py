@@ -62,7 +62,6 @@ class Nos:
     Base class to build NOS plugins instances to use with FakeNOS.
     """
 
-    # pylint: disable=too-many-arguments
     def __init__(
         self,
         name: str = "FakeNOS",
@@ -204,7 +203,7 @@ class Nos:
                 },
             }
 
-        :param data: OS path string to Python .py file
+        :param filename: OS path string to Python .py file
         """
         spec = importlib.util.spec_from_file_location("module.name", filename)
         module = importlib.util.module_from_spec(spec)
@@ -225,7 +224,7 @@ class Nos:
         """
         Method to load NOS from YAML or Python file
 
-        :param data: OS path string to `.yaml/.yml` or `.py` file with NOS data
+        :param filename: OS path string to `.yaml/.yml` or `.py` file with NOS data
         """
         if not self.is_file_ending_correct(filename):
             raise ValueError(
