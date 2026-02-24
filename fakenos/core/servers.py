@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 
 class TCPServerBase(ABC):
     """
-    This module provides the base class for a TCP Server.
+    Base class for a TCP Server.
     It provides the methods to start and stop the server.
 
     Note: We are looking to switch to socketserver as it is
@@ -106,7 +106,7 @@ class TCPServerBase(ABC):
     @abstractmethod
     def connection_function(self, client, is_running):
         """
-        This abstract method it is called when a new connection
-        is made. The implementation should handle all the
-        latter connection.
+        This abstract method is called when a new connection
+        is made. The implementation should handle the
+        connection afterwards.
         """
