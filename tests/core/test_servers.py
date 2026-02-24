@@ -44,7 +44,8 @@ class ServersTest(unittest.TestCase):
         servers = FakeServer()
 
         assert servers._is_running == mock_thread_event.return_value
-        mock_thread_event.assert_called_once()
+        assert servers._listening == mock_thread_event.return_value
+        assert mock_thread_event.call_count == 2
         assert servers._socket is None
         assert servers.client_shell is None
         assert servers._listen_thread is None
@@ -69,7 +70,9 @@ class ServersTest(unittest.TestCase):
         servers.start()
 
         mock_bind_sockets.assert_called_once()
-        mock_thread_event().set.assert_called_once()
+        mock_thread_event().set.assert_called()
+        mock_thread_event().clear.assert_called()
+        mock_thread_event().wait.assert_called()
         mock_thread.assert_called_once_with(target=servers._listen)
         mock_thread().start.assert_called_once()
 
@@ -216,6 +219,7 @@ class ServersTest(unittest.TestCase):
 
         servers._listen()
         mock_socket().listen.assert_called_once()
+        mock_thread_event().set.assert_called()
         mock_socket().accept.assert_called_once()
         mock_thread.assert_called_once_with(
             target=servers.connection_function,
@@ -240,6 +244,7 @@ class ServersTest(unittest.TestCase):
 
         servers._listen()
         mock_socket().listen.assert_called_once()
+        mock_thread_event().set.assert_called()
         mock_socket().accept.assert_called_once()
         mock_thread.assert_not_called()
         self.assertEqual(len(servers._connection_threads), 0)
@@ -258,7 +263,8 @@ class ServersTest(unittest.TestCase):
         servers._socket = mock_socket()
         servers._socket.accept.return_value = (MagicMock(), MagicMock())
         servers._listen()
-        self.assertEqual(mock_socket().listen.call_count, 100)
+        mock_socket().listen.assert_called_once()
+        mock_thread_event().set.assert_called()
         self.assertEqual(mock_socket().accept.call_count, 100)
         self.assertEqual(mock_thread.call_count, 100)
         self.assertEqual(mock_thread().start.call_count, 100)
