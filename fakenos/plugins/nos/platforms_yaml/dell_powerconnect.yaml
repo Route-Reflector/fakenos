@@ -2,6 +2,7 @@ name: dell_powerconnect
 initial_prompt: "{base_prompt}>"
 enable_prompt: "{base_prompt}#"
 config_prompt: "{base_prompt}(config)#"
+auth: "none"
 commands:
   enable:
     output: 'null'
@@ -115,6 +116,18 @@ commands:
       \    dynamic\n  220      70:b5:e8:d5:e2:fc     g2    dynamic\n  220      70:b5:e8:d5:e6:d4\
       \     g1    dynamic\n"
     help: execute the command "show bridge address table"
+    prompt:
+    - "{base_prompt}>"
+    - "{base_prompt}#"
+  terminal datadump:
+    output: ""
+    help: disable paging (Dell 34xx)
+    prompt:
+    - "{base_prompt}>"
+    - "{base_prompt}#"
+  terminal length 0:
+    output: ""
+    help: disable paging (Dell 7xxx)
     prompt:
     - "{base_prompt}>"
     - "{base_prompt}#"

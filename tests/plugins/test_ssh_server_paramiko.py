@@ -832,3 +832,124 @@ class ParamikoSshServerTest(unittest.TestCase):
 
         mock_session.accept.assert_called_once()
         mock_session.close.assert_called_once()
+
+
+class ParamikoSSHServerInterfaceAuthNoneTest(unittest.TestCase):
+    """Test cases for auth_none support in ParamikoSshServerInterface."""
+
+    def test_check_auth_none_allowed(self):
+        """auth_none should return AUTH_SUCCESSFUL when allow_auth_none=True."""
+        server = ParamikoSshServerInterface(username="admin", password="admin", allow_auth_none=True)
+        self.assertEqual(server.check_auth_none("admin"), paramiko.AUTH_SUCCESSFUL)
+
+    def test_check_auth_none_not_allowed(self):
+        """auth_none should return AUTH_FAILED by default."""
+        server = ParamikoSshServerInterface(username="admin", password="admin")
+        self.assertEqual(server.check_auth_none("admin"), paramiko.AUTH_FAILED)
+
+    def test_get_allowed_auths_with_auth_none(self):
+        """Allowed auths should include 'none' when allow_auth_none=True."""
+        server = ParamikoSshServerInterface(username="admin", password="admin", allow_auth_none=True)
+        allowed = server.get_allowed_auths("admin")
+        self.assertIn("none", allowed)
+        self.assertIn("password", allowed)
+        self.assertIn("keyboard-interactive", allowed)
+
+    def test_get_allowed_auths_default(self):
+        """Allowed auths should not include 'none' by default."""
+        server = ParamikoSshServerInterface(username="admin", password="admin")
+        allowed = server.get_allowed_auths("admin")
+        self.assertNotIn("none", allowed)
+
+    def test_auth_method_used_tracking_none(self):
+        """auth_method_used should be set to 'none' after check_auth_none succeeds."""
+        server = ParamikoSshServerInterface(username="admin", password="admin", allow_auth_none=True)
+        self.assertIsNone(server.auth_method_used)
+        server.check_auth_none("admin")
+        self.assertEqual(server.auth_method_used, "none")
+
+    def test_auth_method_used_tracking_password(self):
+        """auth_method_used should be set to 'password' after check_auth_password succeeds."""
+        server = ParamikoSshServerInterface(username="admin", password="admin")
+        self.assertIsNone(server.auth_method_used)
+        server.check_auth_password("admin", "admin")
+        self.assertEqual(server.auth_method_used, "password")
+
+    def test_auth_method_used_tracking_keyboard_interactive(self):
+        """auth_method_used should be set to 'keyboard-interactive' after interactive auth succeeds."""
+        server = ParamikoSshServerInterface(username="admin", password="admin")
+        self.assertIsNone(server.auth_method_used)
+        server.check_auth_interactive_response(["admin"])
+        self.assertEqual(server.auth_method_used, "keyboard-interactive")
+
+    def test_auth_method_used_not_set_on_failure(self):
+        """auth_method_used should remain None when authentication fails."""
+        server = ParamikoSshServerInterface(username="admin", password="admin")
+        server.check_auth_password("admin", "wrong")
+        self.assertIsNone(server.auth_method_used)
+
+
+class ParamikoSshServerChannelLoginTest(unittest.TestCase):
+    """Test cases for _channel_login in ParamikoSshServer."""
+
+    def setUp(self):
+        self.arguments = {
+            "shell": Mock(),
+            "nos": Mock(),
+            "nos_inventory_config": {},
+            "port": 22,
+            "username": "admin",
+            "password": "admin",
+        }
+
+    def _make_channel(self, input_bytes: bytes):
+        """Create a mock channel that returns input_bytes one byte at a time."""
+        mock_channel = MagicMock()
+        # iter(bytes) yields int; wrap each in bytes() so recv returns bytes
+        byte_list = [bytes([b]) for b in input_bytes]
+        byte_iter = iter(byte_list)
+        mock_channel.recv.side_effect = lambda n: next(byte_iter, b"")
+        mock_channel.sendall = MagicMock()
+        return mock_channel
+
+    def test_channel_login_success(self):
+        """Correct credentials should return True."""
+        server = ParamikoSshServer(**self.arguments)
+        channel = self._make_channel(b"admin\radmin\r")
+        result = server._channel_login(channel)
+        self.assertTrue(result)
+
+    def test_channel_login_wrong_password(self):
+        """Wrong password should return False."""
+        server = ParamikoSshServer(**self.arguments)
+        channel = self._make_channel(b"admin\rwrong\r")
+        result = server._channel_login(channel)
+        self.assertFalse(result)
+
+    def test_channel_login_wrong_username(self):
+        """Wrong username should return False."""
+        server = ParamikoSshServer(**self.arguments)
+        channel = self._make_channel(b"wrong\radmin\r")
+        result = server._channel_login(channel)
+        self.assertFalse(result)
+
+    def test_channel_login_sends_prompts(self):
+        """_channel_login should send User Name: and Password: prompts."""
+        server = ParamikoSshServer(**self.arguments)
+        channel = self._make_channel(b"admin\radmin\r")
+        server._channel_login(channel)
+        calls = [c[0][0] for c in channel.sendall.call_args_list]
+        self.assertEqual(calls[0], b"\r\nUser Name:")
+        self.assertIn(b"\r\nPassword:", calls)
+
+    def test_channel_login_no_password_echo(self):
+        """Password input should not be echoed back (no per-byte sendall for password)."""
+        server = ParamikoSshServer(**self.arguments)
+        channel = self._make_channel(b"admin\radmin\r")
+        server._channel_login(channel)
+        # Collect all sendall args
+        calls = [c[0][0] for c in channel.sendall.call_args_list]
+        # Username "admin" chars should be echoed individually (5 echo calls)
+        # Password chars should NOT be echoed
+        username_echo_count = sum(1 for c in calls if c in (b"a", b"d", b"m", b"i", b"n"))
+        self.assertEqual(username_echo_count, 5)

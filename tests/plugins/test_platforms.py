@@ -74,6 +74,7 @@ class TestPlatforms:
                     "enable_prompt",
                     "config_prompt",
                     "commands",
+                    "auth",
                 ]
 
     @pytest.mark.parametrize("platform", available_platforms)

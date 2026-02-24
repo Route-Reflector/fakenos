@@ -32,7 +32,7 @@ available_platforms: list[str] = [
     "cisco_s300",
     "cisco_xr",
     "dell_force10",
-    # "dell_powerconnect",
+    "dell_powerconnect",
     "dlink_ds",
     "eltex",
     "ericsson_ipos",
@@ -82,6 +82,7 @@ class Nos:
         self.name = name
         self.commands = commands or {}
         self.initial_prompt = initial_prompt
+        self.auth: str | None = None
         self.enable_prompt = None
         self.config_prompt = None
         self.device = None
@@ -138,6 +139,7 @@ class Nos:
         self.name = data.get("name", self.name)
         self.commands.update(data.get("commands", self.commands))
         self.initial_prompt = data.get("initial_prompt", self.initial_prompt)
+        self.auth = data.get("auth", self.auth)
 
     def _from_yaml(self, data: str) -> None:
         """

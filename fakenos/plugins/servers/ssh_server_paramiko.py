@@ -70,10 +70,13 @@ class ParamikoSshServerInterface(paramiko.ServerInterface):
         ssh_banner: str = "FakeNOS Paramiko SSH Server",
         username: str | None = None,
         password: str | None = None,
+        allow_auth_none: bool = False,
     ):
         self.ssh_banner = ssh_banner
         self.username = username
         self.password = password
+        self.allow_auth_none = allow_auth_none
+        self.auth_method_used: str | None = None
 
     def check_channel_request(self, kind, chanid):
         """
@@ -103,11 +106,22 @@ class ParamikoSshServerInterface(paramiko.ServerInterface):
 
     def get_allowed_auths(self, username):
         """Return the authentication methods supported by this server."""
-        return "password,keyboard-interactive"
+        methods = "password,keyboard-interactive"
+        if self.allow_auth_none:
+            methods = "none," + methods
+        return methods
+
+    def check_auth_none(self, username):
+        """Allow auth_none if configured (e.g. for Dell PowerConnect)."""
+        if self.allow_auth_none:
+            self.auth_method_used = "none"
+            return paramiko.AUTH_SUCCESSFUL
+        return paramiko.AUTH_FAILED
 
     def check_auth_password(self, username, password):
         """Validate username/password for standard password authentication."""
         if (username == self.username) and (password == self.password):
+            self.auth_method_used = "password"
             return paramiko.AUTH_SUCCESSFUL
         return paramiko.AUTH_FAILED
 
@@ -122,6 +136,7 @@ class ParamikoSshServerInterface(paramiko.ServerInterface):
     def check_auth_interactive_response(self, responses):
         """Validate the password response from keyboard-interactive authentication."""
         if len(responses) == 1 and responses[0] == self.password:
+            self.auth_method_used = "keyboard-interactive"
             return paramiko.AUTH_SUCCESSFUL
         return paramiko.AUTH_FAILED
 
@@ -314,10 +329,61 @@ class ParamikoSshServer(TCPServerBase):
 
             time.sleep(self.watchdog_interval)
 
+    def _read_channel_line(self, channel, echo: bool = True) -> str:
+        """
+        Read a single line from the channel byte-by-byte.
+
+        :param channel: paramiko Channel
+        :param echo: if True, echo each byte back to the client
+        :return: the line read (without trailing CR/LF)
+        """
+        channel.settimeout(self.timeout)
+        buf = b""
+        while True:
+            try:
+                byte = channel.recv(1)
+            except TimeoutError:
+                continue
+            if byte in (b"", None):
+                break
+            if byte in (b"\r", b"\n"):
+                if echo:
+                    channel.sendall(b"\r\n")
+                break
+            if echo:
+                channel.sendall(byte)
+            buf += byte
+        return buf.decode("utf-8", errors="replace")
+
+    def _channel_login(self, channel) -> bool:
+        """
+        Perform channel-level login for auth_none platforms (e.g. Dell PowerConnect).
+
+        Sends "User Name:" / "Password:" prompts and validates credentials.
+
+        :param channel: paramiko Channel
+        :return: True if login succeeded, False otherwise
+        """
+        channel.sendall(b"\r\nUser Name:")
+        username = self._read_channel_line(channel, echo=True)
+        channel.sendall(b"\r\nPassword:")
+        password = self._read_channel_line(channel, echo=False)
+        channel.sendall(b"\r\n")
+
+        if username == self.username and password == self.password:
+            log.debug("Channel login succeeded for user %s", username)
+            return True
+
+        log.warning("Channel login failed for user %s", username)
+        return False
+
     def connection_function(self, client: socket.socket, is_running: threading.Event):
         shell_replied_event = threading.Event()
         run_srv = threading.Event()
         run_srv.set()
+
+        # determine if this NOS requires auth_none
+        allow_auth_none = getattr(self.nos, "auth", None) == "none"
 
         # create the SSH transport object
         session = paramiko.Transport(client)
@@ -330,6 +396,7 @@ class ParamikoSshServer(TCPServerBase):
             ssh_banner=self.ssh_banner,
             username=self.username,
             password=self.password,
+            allow_auth_none=allow_auth_none,
         )
 
         # start the SSH server
@@ -341,6 +408,14 @@ class ParamikoSshServer(TCPServerBase):
             log.warning("session.accept() returned None, closing transport")
             session.close()
             return
+
+        # for auth_none, perform channel-level login before starting the shell
+        if server.auth_method_used == "none" and not self._channel_login(channel):
+            log.warning("Channel login failed, closing connection")
+            channel.close()
+            session.close()
+            return
+
         channel_stdio = channel.makefile("rw")
 
         # create stdio for the shell
