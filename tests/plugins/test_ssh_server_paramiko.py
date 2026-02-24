@@ -476,7 +476,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -502,7 +501,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(filename="tests/assets/ssh_host_rsa_key"),
@@ -529,7 +527,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(
@@ -558,7 +555,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -584,7 +580,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -610,7 +605,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.2")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -636,7 +630,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 2)
         self.assertEqual(paramiko_server.watchdog_interval, 1)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -662,7 +655,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.1")
         self.assertEqual(paramiko_server.timeout, 1)
         self.assertEqual(paramiko_server.watchdog_interval, 2)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -692,7 +684,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         self.assertEqual(paramiko_server.address, "127.0.0.2")
         self.assertEqual(paramiko_server.timeout, 2)
         self.assertEqual(paramiko_server.watchdog_interval, 2)
-        # pylint: disable=protected-access
         self.assertEqual(
             paramiko_server._ssh_server_key,
             paramiko.RSAKey(file_obj=io.StringIO(DEFAULT_SSH_KEY)),
@@ -745,7 +736,6 @@ class ParamikoSshServerTest(unittest.TestCase):
         paramiko_server.watchdog(mock_is_running, mock_run_srv, mock_session, mock_shell)
         mock_shell.stop.assert_called_once()
 
-    # pylint: disable=unused-argument
     @mock.patch("fakenos.plugins.servers.ssh_server_paramiko.channel_to_shell_tap")
     @mock.patch("fakenos.plugins.servers.ssh_server_paramiko.shell_to_channel_tap")
     @mock.patch("paramiko.Transport")
