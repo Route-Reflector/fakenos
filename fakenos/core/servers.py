@@ -30,7 +30,6 @@ class TCPServerBase(ABC):
         self.port = port
         self.timeout = timeout
         self._is_running = threading.Event()
-        self._listening = threading.Event()
         self._socket = None
         self.client_shell = None
         self._listen_thread = None
@@ -48,11 +47,10 @@ class TCPServerBase(ABC):
         self._is_running.set()
 
         self._bind_sockets()
+        self._socket.listen()
 
-        self._listening.clear()
         self._listen_thread = threading.Thread(target=self._listen)
         self._listen_thread.start()
-        self._listening.wait()
 
     def _bind_sockets(self):
         """
@@ -90,8 +88,6 @@ class TCPServerBase(ABC):
         It waits for a connection, and if a connection is made, it will
         call the connection function.
         """
-        self._socket.listen()
-        self._listening.set()
         while self._is_running.is_set():
             try:
                 client, _ = self._socket.accept()
