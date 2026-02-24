@@ -889,50 +889,56 @@ class ParamikoSshServerInterfaceAuthNoneTest(unittest.TestCase):
         self.assertIsNone(server.auth_method_used)
 
 
-class ParamikoSshServerInterfaceUsernameNormalizationTest(unittest.TestCase):
-    """Test cases for MikroTik-style username normalization in ParamikoSshServerInterface.
+class ParamikoSshServerInterfaceUsernameMatchTest(unittest.TestCase):
+    """Test cases for username matching in ParamikoSshServerInterface.
 
     MikroTik RouterOS appends terminal options to the SSH username
-    (e.g. ``admin+ct511w4098h``).  The server must strip the ``+`` suffix
-    so that authentication matches the base username.
+    (e.g. ``admin+ct511w4098h``).  The server tries an exact match first
+    and falls back to stripping the ``+`` suffix, so that usernames
+    legitimately containing ``+`` are never falsely truncated.
     """
 
-    # -- _normalize_username ------------------------------------------------
+    # -- _match_username ----------------------------------------------------
 
-    def test_normalize_plain_username(self):
-        """A plain username without ``+`` should be returned unchanged."""
-        self.assertEqual(
-            ParamikoSshServerInterface._normalize_username("admin"),
-            "admin",
-        )
+    def test_match_exact(self):
+        """Exact match should succeed."""
+        server = ParamikoSshServerInterface(username="admin", password="pw")
+        self.assertTrue(server._match_username("admin"))
 
-    def test_normalize_mikrotik_suffix(self):
-        """A MikroTik-style username should be stripped to the base name."""
-        self.assertEqual(
-            ParamikoSshServerInterface._normalize_username("admin+ct511w4098h"),
-            "admin",
-        )
+    def test_match_mikrotik_suffix(self):
+        """MikroTik-style suffix should match via fallback."""
+        server = ParamikoSshServerInterface(username="admin", password="pw")
+        self.assertTrue(server._match_username("admin+ct511w4098h"))
 
-    def test_normalize_empty_username(self):
-        """An empty username should be returned unchanged."""
-        self.assertEqual(
-            ParamikoSshServerInterface._normalize_username(""),
-            "",
-        )
+    def test_match_wrong_username(self):
+        """Completely wrong username should not match."""
+        server = ParamikoSshServerInterface(username="admin", password="pw")
+        self.assertFalse(server._match_username("wrong"))
 
-    def test_normalize_plus_only(self):
-        """A username that is just ``+suffix`` should return an empty base."""
-        self.assertEqual(
-            ParamikoSshServerInterface._normalize_username("+ct511w4098h"),
-            "",
-        )
+    def test_match_wrong_base_with_suffix(self):
+        """Wrong base username with suffix should not match."""
+        server = ParamikoSshServerInterface(username="admin", password="pw")
+        self.assertFalse(server._match_username("wrong+ct511w4098h"))
 
-    def test_normalize_multiple_plus(self):
-        """Only the first ``+`` should be treated as the separator."""
-        self.assertEqual(
-            ParamikoSshServerInterface._normalize_username("admin+ct+extra"),
-            "admin",
-        )
+    def test_match_username_containing_plus(self):
+        """A configured username containing ``+`` should match exactly."""
+        server = ParamikoSshServerInterface(username="user+name", password="pw")
+        self.assertTrue(server._match_username("user+name"))
+
+    def test_match_username_containing_plus_not_truncated(self):
+        """A username containing ``+`` should not falsely match its prefix."""
+        server = ParamikoSshServerInterface(username="user+name", password="pw")
+        self.assertFalse(server._match_username("user"))
+
+    def test_match_empty_username(self):
+        """Empty username should only match empty configured username."""
+        server = ParamikoSshServerInterface(username="", password="pw")
+        self.assertTrue(server._match_username(""))
+
+    def test_match_plus_only_suffix(self):
+        """``+suffix`` should match configured empty username via fallback."""
+        server = ParamikoSshServerInterface(username="", password="pw")
+        self.assertTrue(server._match_username("+ct511w4098h"))
 
     # -- check_auth_password with suffix ------------------------------------
 
@@ -960,6 +966,14 @@ class ParamikoSshServerInterfaceUsernameNormalizationTest(unittest.TestCase):
             paramiko.AUTH_FAILED,
         )
 
+    def test_password_auth_exact_match_with_plus_in_username(self):
+        """Password auth should succeed for a username containing ``+`` via exact match."""
+        server = ParamikoSshServerInterface(username="user+name", password="passtest")
+        self.assertEqual(
+            server.check_auth_password("user+name", "passtest"),
+            paramiko.AUTH_SUCCESSFUL,
+        )
+
     # -- check_auth_interactive with suffix ---------------------------------
 
     def test_interactive_auth_with_mikrotik_suffix(self):
@@ -975,6 +989,12 @@ class ParamikoSshServerInterfaceUsernameNormalizationTest(unittest.TestCase):
             server.check_auth_interactive("wrong+ct511w4098h", ""),
             paramiko.AUTH_FAILED,
         )
+
+    def test_interactive_auth_exact_match_with_plus_in_username(self):
+        """Interactive auth should accept a username containing ``+`` via exact match."""
+        server = ParamikoSshServerInterface(username="user+name", password="passtest")
+        result = server.check_auth_interactive("user+name", "")
+        self.assertIsInstance(result, paramiko.InteractiveQuery)
 
 
 class ParamikoSshServerChannelLoginTest(unittest.TestCase):
