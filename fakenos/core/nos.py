@@ -83,8 +83,8 @@ class Nos:
         self.commands = commands or {}
         self.initial_prompt = initial_prompt
         self.auth: str | None = None
-        self.enable_prompt = None
-        self.config_prompt = None
+        self.enable_prompt: str | None = None
+        self.config_prompt: str | None = None
         self.device = None
         self.configuration_file = configuration_file
         if isinstance(filename, str):
@@ -140,6 +140,8 @@ class Nos:
         self.commands.update(data.get("commands", self.commands))
         self.initial_prompt = data.get("initial_prompt", self.initial_prompt)
         self.auth = data.get("auth", self.auth)
+        self.enable_prompt = data.get("enable_prompt", self.enable_prompt)
+        self.config_prompt = data.get("config_prompt", self.config_prompt)
 
     def _from_yaml(self, data: str) -> None:
         """

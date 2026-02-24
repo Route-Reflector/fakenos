@@ -20,7 +20,7 @@ from fakenos.plugins.servers.ssh_server_paramiko import (
 )
 
 
-class ParamikoSSHServerInterfaceTest(unittest.TestCase):
+class ParamikoSshServerInterfaceTest(unittest.TestCase):
     """
     Test cases for the ParamikoSSHServerInterface class.
     """
@@ -834,7 +834,7 @@ class ParamikoSshServerTest(unittest.TestCase):
         mock_session.close.assert_called_once()
 
 
-class ParamikoSSHServerInterfaceAuthNoneTest(unittest.TestCase):
+class ParamikoSshServerInterfaceAuthNoneTest(unittest.TestCase):
     """Test cases for auth_none support in ParamikoSshServerInterface."""
 
     def test_check_auth_none_allowed(self):
