@@ -1,10 +1,8 @@
 """
-This module handles is the base model for any
-server implemented as a plugin. To see an example
+Base model for any server implemented as a plugin. To see an example
 look for fakenos/plugins/servers/ssh_server_paramiko.py
 """
 
-# pylint: disable=no-name-in-module
 from abc import ABC, abstractmethod
 import logging
 import socket
@@ -14,7 +12,6 @@ import threading
 log = logging.getLogger(__name__)
 
 
-# pylint: disable=too-many-instance-attributes
 class TCPServerBase(ABC):
     """
     This module provides the base class for a TCP Server.

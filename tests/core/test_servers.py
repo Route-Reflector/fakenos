@@ -1,9 +1,8 @@
 """
-Test moudle for fakenos.core.servers.
+Test module for fakenos.core.servers.
 The file can be found under fakenos/core/servers.py
 """
 
-# pylint: disable=protected-access, attribute-defined-outside-init
 import socket
 import sys
 import unittest
@@ -160,7 +159,6 @@ class ServersTest(unittest.TestCase):
         It passes if the functions exits correctly when
         the is_running flag is still set to true.
         """
-        self._connection_thread = [MagicMock() for _ in range(3)]
         mock_thread_event().is_set.return_value = True
         servers = FakeServer()
         servers._listen_thread = mock_thread()
@@ -193,7 +191,6 @@ class ServersTest(unittest.TestCase):
         It passes if the connection threads are joined
         after the program is interrupted.
         """
-        self._connection_thread = [MagicMock() for _ in range(3)]
         mock_thread_event().is_set.return_value = True
         servers = FakeServer()
         servers._listen_thread = mock_thread()
