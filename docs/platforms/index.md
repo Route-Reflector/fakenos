@@ -30,7 +30,7 @@ The following list of platforms are supported by FakeNOS. All the platforms list
 - [cisco_s300](platforms/cisco_s300.md) ✅
 - [cisco_xr](platforms/cisco_xr.md) ✅
 - [dell_force10](platforms/dell_force10.md) ✅
-- [dell_powerconnect](platforms/dell_powerconnect.md) ❌[See issue](https://github.com/fakenos/fakenos/issues/3)
+- [dell_powerconnect](platforms/dell_powerconnect.md) ✅
 - [dlink_ds](platforms/dlink_ds.md) ✅
 - [eltex](platforms/eltex.md) ✅
 - [ericsson_ipos](platforms/ericsson_ipos.md) ✅

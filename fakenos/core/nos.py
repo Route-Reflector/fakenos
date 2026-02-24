@@ -32,7 +32,7 @@ available_platforms: list[str] = [
     "cisco_s300",
     "cisco_xr",
     "dell_force10",
-    # "dell_powerconnect",
+    "dell_powerconnect",
     "dlink_ds",
     "eltex",
     "ericsson_ipos",
@@ -62,7 +62,6 @@ class Nos:
     Base class to build NOS plugins instances to use with FakeNOS.
     """
 
-    # pylint: disable=too-many-arguments
     def __init__(
         self,
         name: str = "FakeNOS",
@@ -82,8 +81,9 @@ class Nos:
         self.name = name
         self.commands = commands or {}
         self.initial_prompt = initial_prompt
-        self.enable_prompt = None
-        self.config_prompt = None
+        self.auth: str | None = None
+        self.enable_prompt: str | None = None
+        self.config_prompt: str | None = None
         self.device = None
         self.configuration_file = configuration_file
         if isinstance(filename, str):
@@ -138,6 +138,9 @@ class Nos:
         self.name = data.get("name", self.name)
         self.commands.update(data.get("commands", self.commands))
         self.initial_prompt = data.get("initial_prompt", self.initial_prompt)
+        self.auth = data.get("auth", self.auth)
+        self.enable_prompt = data.get("enable_prompt", self.enable_prompt)
+        self.config_prompt = data.get("config_prompt", self.config_prompt)
 
     def _from_yaml(self, data: str) -> None:
         """
@@ -200,7 +203,7 @@ class Nos:
                 },
             }
 
-        :param data: OS path string to Python .py file
+        :param filename: OS path string to Python .py file
         """
         spec = importlib.util.spec_from_file_location("module.name", filename)
         module = importlib.util.module_from_spec(spec)
@@ -208,8 +211,9 @@ class Nos:
         self.name = getattr(module, "NAME", self.name)
         self.commands.update(getattr(module, "commands", self.commands))
         self.initial_prompt = getattr(module, "INITIAL_PROMPT", self.initial_prompt)
-        self.enable_prompt = getattr(module, "ENABLE_PROMPT", None)
-        self.config_prompt = getattr(module, "CONFIG_PROMPT", None)
+        self.auth = getattr(module, "AUTH", self.auth)
+        self.enable_prompt = getattr(module, "ENABLE_PROMPT", self.enable_prompt)
+        self.config_prompt = getattr(module, "CONFIG_PROMPT", self.config_prompt)
         classname = getattr(module, "DEVICE_NAME", None)
         configuration_file = self.configuration_file
         if not self.configuration_file:
@@ -220,7 +224,7 @@ class Nos:
         """
         Method to load NOS from YAML or Python file
 
-        :param data: OS path string to `.yaml/.yml` or `.py` file with NOS data
+        :param filename: OS path string to `.yaml/.yml` or `.py` file with NOS data
         """
         if not self.is_file_ending_correct(filename):
             raise ValueError(

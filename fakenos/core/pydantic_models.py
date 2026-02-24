@@ -39,6 +39,9 @@ class ModelNosAttributes(BaseModel):
     commands: dict[StrictStr, ModelNosCommand]
     name: StrictStr
     initial_prompt: StrictStr
+    auth: StrictStr | None = None
+    enable_prompt: StrictStr | None = None
+    config_prompt: StrictStr | None = None
 
 
 class ModelHost(BaseModel):
