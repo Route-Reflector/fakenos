@@ -46,7 +46,7 @@ available_platforms: list[str] = [
     "juniper_junos",
     "juniper_screenos",
     "linux",
-    # "mikrotik_routeros",
+    "mikrotik_routeros",
     "paloalto_panos",
     "ruckus_fastiron",
     "ubiquiti_edgerouter",

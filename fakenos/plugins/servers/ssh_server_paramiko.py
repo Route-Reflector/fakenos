@@ -118,16 +118,27 @@ class ParamikoSshServerInterface(paramiko.ServerInterface):
             return paramiko.AUTH_SUCCESSFUL
         return paramiko.AUTH_FAILED
 
+    @staticmethod
+    def _normalize_username(username: str) -> str:
+        """Strip MikroTik-style login options from username.
+
+        MikroTik RouterOS appends terminal settings to the username
+        (e.g. ``admin+ct511w4098h``). Strip the ``+`` suffix so that
+        authentication matches the base username.
+        """
+        base, _, _ = username.partition("+")
+        return base
+
     def check_auth_password(self, username, password):
         """Validate username/password for standard password authentication."""
-        if (username == self.username) and (password == self.password):
+        if (self._normalize_username(username) == self.username) and (password == self.password):
             self.auth_method_used = "password"
             return paramiko.AUTH_SUCCESSFUL
         return paramiko.AUTH_FAILED
 
     def check_auth_interactive(self, username, submethods):
         """Begin keyboard-interactive authentication by sending a password prompt."""
-        if username == self.username:
+        if self._normalize_username(username) == self.username:
             query = paramiko.InteractiveQuery()
             query.add_prompt("Password: ", echo=False)
             return query
