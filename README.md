@@ -1,3 +1,8 @@
+> **This project has moved to [Route-Reflector/simnos](https://github.com/Route-Reflector/simnos).**
+> This repository is archived and no longer maintained.
+
+---
+
 [English](README.md) | [日本語](README.ja.md)
 
 [![Downloads][pepy-downloads-badge]][pepy-downloads-link]
